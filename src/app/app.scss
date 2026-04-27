@@ -1,7 +1,6 @@
+@use "./styles/abstract/mixins" as m;
+
 body {
     max-width: 1440px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
+    @include m.flex($justify: flex-start, $direction: column);
 }
