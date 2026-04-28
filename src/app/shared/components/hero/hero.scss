@@ -1,3 +1,14 @@
+@use "../../../styles/abstract/mixins" as m;
+
+.hero {
+    @include m.flexR($justify: space-between);
+}
+
 .hero__description {
     color: #ffffff;
+}
+
+img {
+    order: 1;
+    justify-self: flex-end;
 }

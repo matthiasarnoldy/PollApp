@@ -1,10 +1,8 @@
-<h1>Collect Feedback, Unlock Ideas</h1>
-<p class="hero__description">Create and share surveys in minutes – from team events to workplace culture. Collect opinions, engage your audience, and turn feedback into action.</p>
-<button class="button button--primary button--add-circle">New survey</button>
-<img
-	class="surveyIcon"
-	[src]="isHovered ? '/icons/surveyIcon--animate.svg' : '/icons/surveyIcon.svg'"
-	alt=""
-	(mouseenter)="isHovered = true"
-	(mouseleave)="isHovered = false"
-/>
+<section class="hero">
+    <h1>Collect Feedback, Unlock Ideas</h1>
+    <p class="hero__description">Create and share surveys in minutes – from team events to workplace culture. Collect
+        opinions, engage your audience, and turn feedback into action.</p>
+    <button class="button button--primary button--add-circle">New survey</button>
+    <img class="surveyIcon" [src]="isHovered ? '/icons/surveyIcon--animate.svg' : '/icons/surveyIcon.svg'" alt=""
+        (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" />
+</section>
