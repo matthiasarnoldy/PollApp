@@ -2,6 +2,6 @@
 
 header {
     width: 100%;
-    padding: 40px clamp(16px, 8.4vw - 10.9px, 110px);
+    padding: 40px 0;
     @include m.flexR($justify: flex-start);
 }

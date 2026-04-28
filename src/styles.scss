@@ -20,7 +20,9 @@ body {
     width: 100%;
     max-width: 1440px;
     min-height: 100vh;
+    padding: 0 clamp(16px, 8.4vw - 10.9px, 110px);
     @include m.flexC($justify: flex-start);
+    cursor: default;
 
     @include m.breakpointMin(1440px) {
         width: 1440px;
