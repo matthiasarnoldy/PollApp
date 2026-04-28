@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +9,21 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('Pollapp');
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.changeBodyClass(event);
+      }
+    });
+  }
+
+  changeBodyClass(event: NavigationEnd) {
+    document.body.className = '';
+    if (event.urlAfterRedirects == '/home' || event.urlAfterRedirects == '/') {
+      document.body.classList.add('home');
+    } else if (event.urlAfterRedirects == '/survey-view') {
+      document.body.classList.add('survey-view');
+    }
+  }
 }

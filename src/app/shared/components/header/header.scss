@@ -1,6 +1,7 @@
+@use "../../../styles/abstract/mixins" as m;
+
 header {
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
     padding: 40px clamp(16px, 8.4vw - 10.9px, 110px);
+    @include m.flexR($justify: flex-start);
 }

@@ -1,4 +1,4 @@
-@mixin flex(
+@mixin flexR(
 	$justify: center,
 	$align: center,
 	$direction: row,
@@ -16,8 +16,32 @@
 	}
 }
 
+@mixin flexC(
+	$justify: center,
+	$align: center,
+	$direction: column,
+	$wrap: nowrap,
+	$gap: null
+) {
+	display: flex;
+	justify-content: $justify;
+	align-items: $align;
+	flex-direction: $direction;
+	flex-wrap: $wrap;
+
+	@if $gap != null {
+		gap: $gap;
+	}
+}
+
 @mixin breakpoint($max-width) {
 	@media (max-width: $max-width) {
+		@content;
+	}
+}
+
+@mixin breakpointMin($min-width) {
+	@media (min-width: $min-width) {
 		@content;
 	}
 }
