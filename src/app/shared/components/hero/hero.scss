@@ -1,14 +1,49 @@
 @use "../../../styles/abstract/mixins" as m;
 
 .hero {
-    @include m.flexR($justify: space-between);
+    padding-bottom: 90px;
+    @include m.flexR($justify: flex-start, $gap: 32px);
+}
+
+.hero__header {
+    @include m.flexC($justify: space-between, $align: flex-start, $gap: 24px);
+}
+
+.hero__headline {
+    line-height: clamp(50px, 3.5vw + 38.9px, 89px);
 }
 
 .hero__description {
+    font-size: 24px;
+    font-weight: 600;
     color: #ffffff;
+    padding-bottom: 16px;
+    padding-right: 48px;
+
+    @include m.breakpoint(868px) {
+        font-size: 18px;
+        padding-bottom: 30px;
+        padding-right: 0;
+    }
 }
 
-img {
-    order: 1;
-    justify-self: flex-end;
+.hero__button {
+    @include m.breakpoint(868px) {
+        align-self: center;
+    }
+}
+
+.surveyIcon {
+    @include m.breakpoint(868px) {
+        display: none;
+    }
+
+    &--mobile {
+        width: 100%;
+        display: none;
+
+        @include m.breakpoint(868px) {
+            display: block;
+        }
+    }
 }
