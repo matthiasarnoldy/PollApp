@@ -1,0 +1,105 @@
+@use "../../../styles/abstract/mixins" as m;
+@use "../../../styles/abstract/variables" as v;
+
+.highlights {
+    padding-bottom: 40px;
+    @include m.flexC($justify: space-between, $gap: 80px);
+}
+
+.highlights__overview {
+    width: 100%;
+    @include m.flexC($justify: space-between, $gap: 32px);
+}
+
+.highlights__description {
+    font-size: 32px;
+    font-weight: 500;
+    text-align: left;
+    color: #ffffff;
+    width: 100%;
+
+    @include m.breakpoint(868px) {
+        font-size: 24px;
+    }
+}
+
+.highlights__cards {
+    @include m.flexR($justify: center, $wrap: wrap, $gap: 32px);
+
+    @include m.breakpoint(400px) {
+        gap: 16px;
+    }
+}
+
+.highlights__card {
+    color: #35273A;
+    min-width: 280px;
+    max-width: 310px;
+    height: 310px;
+    padding: 40px;
+    background-color: #FAF5FE;
+    border-radius: 0 80px 0 0;
+    @include m.flexC($justify: space-between, $align: flex-start);
+    cursor: pointer;
+    transition: all 100ms ease-out;
+
+    &:hover {
+        background-color: #F4E9FB;
+
+        .highlights__card--end {
+            background-color: v.$primaryOrange;
+        }
+    }
+
+    @include m.breakpoint(868px) {
+        &:hover {
+            background-color: #FAF5FE;
+
+            .highlights__card--end {
+                background-color: v.$secondaryOrange;
+            }
+        }
+
+        &:active {
+            background-color: #F4E9FB;
+
+            .highlights__card--end {
+                background-color: v.$secondaryOrange;
+            }
+        }
+    }
+
+    @include m.breakpoint(400px) {
+        width: 100%;
+        min-width: auto;
+        max-width: auto;
+        padding: 20px;
+    }
+}
+
+.highlights__card--header {
+    @include m.flexC($justify: space-between, $align: flex-start, $gap: 8px);
+}
+
+.highlights__card--category {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.highlights__card--headline {
+    font-size: 26px;
+    font-weight: 700;
+
+    @include m.breakpoint(868px) {
+        font-size: 24px;
+    }
+}
+
+.highlights__card--end {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 3px 6px;
+    background-color: v.$secondaryOrange;
+    border-radius: 0 14px 0 0;
+    transition: all 100ms ease-out;
+}

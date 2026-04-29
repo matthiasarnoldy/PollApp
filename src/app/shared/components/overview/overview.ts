@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Hero } from "../hero/hero";
-import { CurrentSurveys } from "../current-surveys/current-surveys";
+import { Highlights } from "../highlights/highlights";
 
 @Component({
   selector: 'app-overview',
-  imports: [Hero, CurrentSurveys],
+  imports: [Hero, Highlights],
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
 })
