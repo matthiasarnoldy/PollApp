@@ -4,7 +4,11 @@
 
 .surveys {
     padding: 0 clamp(0px, 15.4vw + -133.7px, 88px) 178px;
-    @include m.flexC($gap: 40px);
+    @include m.flexC($align: flex-start, $gap: 40px);
+
+    @include m.breakpoint(868px) {
+        padding-bottom: 80px;
+    }
 }
 
 .surveys__filters {
@@ -30,7 +34,7 @@
     position: absolute;
     top: 34px;
     height: 0;
-    padding: 8px 4px;
+    padding: 0 4px;
     background-color: #ffffff;
     @include m.flexC($align: flex-start, $gap: 4px);
     opacity: 0;
@@ -91,6 +95,7 @@
 
         + .category__dropdown {
             height: fit-content;
+            padding: 8px 4px;
             opacity: 1;
             pointer-events: auto;
         }
@@ -100,4 +105,76 @@
             transform: rotate(180deg) translateX(-4px);
         }
     }
+}
+
+.surveys__dropdown--choosen {
+    position: absolute;
+    padding: 4px 6px;
+    margin-top: 50px;
+    opacity: 0;
+}
+
+.surveylist {
+    width: calc(100% + 38px);
+    height: 500px;
+    padding-right: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    overflow-y: scroll;
+
+    @include m.breakpoint(700px) {
+        width: 100%;
+        height: auto;
+        padding-right: 0;
+        grid-template-columns: 1fr;
+        overflow-y: unset;
+    }
+}
+
+.surveylist__card {
+    height: 156px;
+    padding: 12px 20px;
+    background-color: #D9D9D914;
+    @include m.flexC($justify: space-between, $align: flex-start, $gap: 24px);
+    border-radius: 5px 50px 5px 5px;
+    cursor: pointer;
+    transition: all 100ms ease-out;
+
+    &:hover {
+        background-color: #D9D9D929;
+    }
+}
+
+.surveylist__card--header {
+    @include m.flexC($justify: space-between, $align: flex-start, $gap: 8px);
+}
+
+.surveylist__card--text {
+    font-family: "Mulish";
+    font-size: 16px;
+    font-weight: 500;
+    color: v.$secondaryOrange;
+}
+
+.surveylist__card--headline {
+    font-family: "Mulish";
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+
+    @include m.breakpoint(868px) {
+        font-size: 20px;
+    }
+}
+
+.surveylist__card--end {
+    font-size: 16px;
+    font-weight: 500;
+    color: v.$secondaryPurple;
+    padding: 3px 6px;
+    background-color: v.$secondaryOrange;
+    align-self: flex-end;
+    border-radius: 0 14px 0 0;
+    transition: all 100ms ease-out;
 }
