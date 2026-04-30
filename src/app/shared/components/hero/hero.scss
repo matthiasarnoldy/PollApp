@@ -1,7 +1,7 @@
 @use "../../../styles/abstract/mixins" as m;
 
 .hero {
-    padding-bottom: 90px;
+    padding: 48px 0 90px;
     @include m.flexR($justify: flex-start, $gap: 32px);
 }
 

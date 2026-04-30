@@ -2,8 +2,12 @@
 @use "../../../styles/abstract/variables" as v;
 
 .highlights {
-    padding-bottom: 40px;
+    padding: 0 88px 40px;
     @include m.flexC($justify: space-between, $gap: 80px);
+
+    @include m.breakpoint(868px) {
+        padding: 0 0 40px;
+    }
 }
 
 .highlights__overview {
@@ -33,7 +37,7 @@
 
 .highlights__card {
     color: #35273A;
-    min-width: 280px;
+    flex: 1 1 220px;
     max-width: 310px;
     height: 310px;
     padding: 40px;
@@ -52,6 +56,8 @@
     }
 
     @include m.breakpoint(868px) {
+        flex: 1 1 250px;
+
         &:hover {
             background-color: #FAF5FE;
 

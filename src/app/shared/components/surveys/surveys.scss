@@ -1,0 +1,25 @@
+@use "../../../styles/abstract/mixins" as m;
+@use "../../../styles/abstract/variables" as v;
+
+.surveys {
+    padding: 0 88px 178px;
+    @include m.flexC($gap: 40px);
+}
+
+.surveys__filters {
+    width: 100%;
+    @include m.flexR($justify: space-between);
+}
+
+.surveys__filters--survey {
+    @include m.flexR($gap: 24px);
+}
+
+.surveys__filters--sort {
+    font-family: "Mulish";
+    font-size: 18px;
+    font-weight: 700;
+    padding: 4px 6px;
+    @include m.flexR($justify: space-between, $gap: 8px);
+    border-radius: 6px;
+}
