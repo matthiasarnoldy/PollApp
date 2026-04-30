@@ -3,6 +3,10 @@
 .hero {
     padding: 48px 0 90px;
     @include m.flexR($justify: flex-start, $gap: 32px);
+
+    @include m.breakpoint(868px) {
+        padding: 0 0 90px;
+    }
 }
 
 .hero__header {

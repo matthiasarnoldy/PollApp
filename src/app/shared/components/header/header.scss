@@ -40,7 +40,7 @@
 
 :host(.header--create) header {
     width: 100%;
-    padding: 0;
+    padding: 40px 0;
     @include m.flexR($justify: flex-start);
 
     .header__icon--light {
@@ -52,8 +52,6 @@
     }
 
     @include m.breakpoint(868px) {
-        padding: 40px 0;
-        
         .header__icon--dark {
             display: block;
         }
