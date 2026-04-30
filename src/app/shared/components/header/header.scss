@@ -1,7 +1,33 @@
 @use "../../../styles/abstract/mixins" as m;
 
-header {
+:host(.header--home) header {
     width: 100%;
     padding: 40px 0;
     @include m.flexR($justify: flex-start);
+
+    .header__icon--light {
+        display: block;
+    }
+
+    .header__icon--dark {
+        display: none;
+    }
+
+    .button {
+        display: none;
+    }
+}
+
+:host(.header--survey) header {
+    width: 100%;
+    padding: 40px 0;
+    @include m.flexR($justify: space-between);
+
+    .header__icon--light {
+        display: none;
+    }
+
+    .header__icon--dark {
+        display: block;
+    }
 }
