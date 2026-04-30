@@ -1,25 +1,103 @@
 @use "../../../styles/abstract/mixins" as m;
 @use "../../../styles/abstract/variables" as v;
+@use "../../../styles/abstract/icon" as i;
 
 .surveys {
-    padding: 0 88px 178px;
+    padding: 0 clamp(0px, 15.4vw + -133.7px, 88px) 178px;
     @include m.flexC($gap: 40px);
 }
 
 .surveys__filters {
     width: 100%;
-    @include m.flexR($justify: space-between);
+    @include m.flexR($justify: space-between, $align: flex-start);
+
+    @include m.breakpoint(600px) {
+        @include m.flexC($justify: space-between, $align: flex-start, $gap: 48px);
+    }
 }
 
 .surveys__filters--survey {
     @include m.flexR($gap: 24px);
 }
 
+.surveys__dropdown {
+    position: relative;
+    width: 200px;
+    @include m.flexC($align: flex-start, $gap: 4px);
+}
+
+.category__dropdown {
+    position: absolute;
+    top: 34px;
+    height: 0;
+    padding: 8px 4px;
+    background-color: #ffffff;
+    @include m.flexC($align: flex-start, $gap: 4px);
+    opacity: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    pointer-events: none;
+    transition: all 300ms;
+
+    &--text {
+        font-family: "Mulish";
+        font-size: 16px;
+        font-weight: 400;
+        color: v.$primaryPurple;
+        padding: 4px;
+        border-radius: 6px;
+        transition: all 100ms ease-out;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #F4E9FB;
+        }
+    }
+}
+
 .surveys__filters--sort {
     font-family: "Mulish";
     font-size: 18px;
     font-weight: 700;
+    color: #ffffff;
+    width: 100%;
     padding: 4px 6px;
-    @include m.flexR($justify: space-between, $gap: 8px);
+    background-color: transparent;
+    @include m.flexR($justify: space-between);
     border-radius: 6px;
+    transition: all 100ms ease-out;
+
+    &::after {
+        content: '';
+        display: block;
+        background-image: url('#{i.icon("arrow--dropdown", "%23ffffff")}');
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        transition: color 100ms ease-out;
+        transition: transform 300ms ease-out;
+    }
+
+    &:hover {
+        background-color: #D9D9D91F;
+
+        &::after {
+            background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
+        }
+    }
+
+    &:active {
+        background-color: #D9D9D91F;
+
+        + .category__dropdown {
+            height: fit-content;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        &::after {
+            background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
+            transform: rotate(180deg) translateX(-4px);
+        }
+    }
 }

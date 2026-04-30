@@ -2,12 +2,18 @@
 @use "../../../styles/abstract/variables" as v;
 
 .highlights {
-    padding: 0 88px 40px;
+    padding: 0 clamp(0px, 15.4vw + -133.7px, 88px) 40px;
     @include m.flexC($justify: space-between, $gap: 80px);
 
     @include m.breakpoint(868px) {
         padding: 0 0 40px;
+        gap: 48px;
     }
+}
+
+.highlights__headline {
+    text-align: center;
+    line-height: 40px;
 }
 
 .highlights__overview {
@@ -37,7 +43,7 @@
 
 .highlights__card {
     color: #35273A;
-    flex: 1 1 220px;
+    flex: 1 1 250px;
     max-width: 310px;
     height: 310px;
     padding: 40px;
