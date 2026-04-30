@@ -30,4 +30,36 @@
     .header__icon--dark {
         display: block;
     }
+
+    @include m.breakpoint(600px) {
+        .button {
+            display: none;
+        }
+    }
+}
+
+:host(.header--create) header {
+    width: 100%;
+    padding: 0;
+    @include m.flexR($justify: flex-start);
+
+    .header__icon--light {
+        display: none;
+    }
+
+    .header__icon--dark {
+        display: none;
+    }
+
+    @include m.breakpoint(868px) {
+        padding: 40px 0;
+        
+        .header__icon--dark {
+            display: block;
+        }
+    }
+
+    .button {
+        display: none;
+    }
 }
