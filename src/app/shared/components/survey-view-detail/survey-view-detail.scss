@@ -1,0 +1,46 @@
+@use "../../../styles/abstract/mixins" as m;
+@use "../../../styles/abstract/variables" as v;
+
+.survey__view--detail {
+    max-width: 702px;
+    padding: 40px;
+    background-color: #8E70991A;
+    @include m.flexC($align: flex-start, $gap: 8px);
+    border-radius: 0 160px 0 0;
+}
+
+.survey__detail {
+    padding-bottom: 24px;
+    @include m.flexC($align: flex-start, $gap: 40px);
+}
+
+.detail__headline {
+    @include m.flexC($align: flex-start, $gap: 8px);
+}
+
+.headline__info {
+    font-family: "Mulish";
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    @include m.flexR($justify: space-between);
+
+    &--text {
+        color: v.$primaryPurple;
+    }
+
+    &--category {
+        color: v.$secondaryPurple;
+    }
+}
+
+.detail__header {
+    color: #EE9236;
+}
+
+.survey__questionlist {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}

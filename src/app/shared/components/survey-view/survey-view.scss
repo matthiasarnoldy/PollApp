@@ -1,0 +1,6 @@
+@use "../../../styles/abstract/mixins" as m;
+
+.survey__view {
+    padding-bottom: 40px;
+    @include m.flexR($justify: flex-start, $gap: 42px)
+}
