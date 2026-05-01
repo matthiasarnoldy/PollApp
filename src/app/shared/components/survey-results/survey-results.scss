@@ -1,0 +1,75 @@
+@use "../../../styles/abstract/mixins" as m;
+@use "../../../styles/abstract/variables" as v;
+
+.surveyresults--headline {
+    color: v.$primaryPurple;
+    padding-bottom: 16px;
+}
+
+.surveyresults--subheadline {
+    color: v.$primaryOrange;
+}
+
+.surveyresults__answerlist {
+    color: v.$primaryPurple;
+    max-width: 315px;
+    @include m.flexC($align: flex-start, $gap: 24px)
+}
+
+.surveyresults__answer {
+    @include m.flexC($align: flex-start, $gap: 16px)
+}
+
+.surveyresults__answer--number {
+    font-family: "Mulish";
+    font-size: 16px;
+    font-weight: 400;
+    @include m.flexR($align: flex-start, $gap: 8px);
+}
+
+.surveyresults__answer--headline {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.surveyresults__answer--header {
+    @include m.flexC($align: flex-start, $gap: 3px);
+}
+
+.surveyresults__resultlist {
+    width: 100%;
+    @include m.flexC($align: flex-start, $gap: 6px);
+}
+
+.surveyresults__result {
+    width: 100%;
+    @include m.flexR($justify: space-between, $gap: 10px);
+
+    &--text {
+        font-family: "Mulish";
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    &--bar {
+        flex: 1;
+        height: 14px;
+        background-color: #EDEDED;
+        border-radius: 0 20px 20px 0;
+    }
+
+    &--bar-fill {
+        display: block;
+        width: var(--result-percent, 0%);
+        height: 100%;
+        background-color: v.$primaryOrange;
+        border-radius: 0 20px 20px 0;
+    }
+
+    &--percent {
+        font-family: "Mulish";
+        font-size: 16px;
+        font-weight: 800;
+        color: #D79451;
+    }
+}
