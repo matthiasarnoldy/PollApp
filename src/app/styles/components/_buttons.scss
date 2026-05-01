@@ -27,15 +27,30 @@ $btn-icons: (
     font-size: 18px;
     font-weight: 700;
     color: v.$secondaryPurple;
-    ;
     padding: 12px 16px;
     background-color: v.$secondaryOrange;
     @include m.flexR($gap: 10px);
     border-radius: 10px;
-    transition: all 300ms ease-out;
+    transition: all 100ms ease-out;
 
     &:hover {
         background-color: v.$primaryOrange;
+    }
+}
+
+.button--secondary {
+    font-family: "Nokora";
+    font-size: 16px;
+    font-weight: 700;
+    color: #FEFDFF;
+    padding: 8px 12px;
+    background-color: #FFB7704D;
+    @include m.flexR($gap: 10px);
+    border-radius: 10px;
+    transition: all 100ms ease-out;
+
+    &:hover {
+        background-color: #FFB77099;
     }
 }
 

@@ -39,8 +39,64 @@
 }
 
 .survey__questionlist {
+    color: v.$primaryPurple;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 24px;
+}
+
+.surveydetail__question {
+    @include m.flexC($justify: flex-start, $align: flex-start, $gap: 24px);
+}
+
+.surveydetail__question--number {
+    font-family: "Mulish";
+    font-size: 16px;
+    font-weight: 400;
+    @include m.flexR($align: flex-start, $gap: 8px);
+}
+
+.surveydetail__question--headline {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.surveydetail__question--header {
+    @include m.flexC($align: flex-start, $gap: 3px);
+}
+
+.surveydetail__answerlist {
+    width: 100%;
+    @include m.flexC($align: flex-start, $gap: 8px);
+}
+
+.surveydetail__answeritem {
+    width: 100%;
+    padding-left: 8px;
+    @include m.flexR($justify: flex-start, $align: flex-start, $gap: 16px);
+    border-radius: 3px;
+    transition: all 100ms ease-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #FFCFA166;
+    }
+
+    &:has(input:checked):hover {
+        background-color: transparent;
+    }
+}
+
+.surveydetail__answeritem--text {
+    @include m.flexR($align: flex-start, $gap: 4px);
+}
+
+.surveydetail__answeritem--letter {
+    font-weight: 700;
+}
+
+.survey__detail--button {
+    color: v.$primaryPurple;
+    align-self: flex-end;
 }
