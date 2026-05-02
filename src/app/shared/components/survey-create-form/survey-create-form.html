@@ -24,12 +24,12 @@
                         </svg>
                     </div>
                 </div>
-                <div class="surveyform__inputfield inputfield">
-                    <label for="survey-date">
-                        Set end date
-                        <span class="label--optional">(optional)</span>
-                    </label>
-                    <div class="surveyform__date-category">
+                <div class="surveyform__date-category">
+                    <div class="surveyform__inputfield inputfield">
+                        <label for="survey-date">
+                            Set end date
+                            <span class="label--optional">(optional)</span>
+                        </label>
                         <div class="inputfield__wrapper">
                             <input class="input" id="survey-date" type="text" placeholder="dd.mm.yyyy"
                                 formControlName="setEndDate" />
@@ -40,21 +40,21 @@
                                     fill="#FEFDFF" />
                             </svg>
                         </div>
-                        <section class="surveys__dropdown">
-                            <button class="surveys__filters--sort button">
-                                <span>Sort by Categories</span>
-                            </button>
-                            <div class="category__dropdown">
-                                <p class="category__dropdown--text">Team activities</p>
-                                <p class="category__dropdown--text">Health & Wellness</p>
-                                <p class="category__dropdown--text">Gaming & Entertainment</p>
-                                <p class="category__dropdown--text">Education & Learning</p>
-                                <p class="category__dropdown--text">Lifestyle & Preferences</p>
-                                <p class="category__dropdown--text">Technology & Innovation</p>
-                            </div>
-                            <span class="surveys__dropdown--choosen">Gaming & Entertainment</span>
-                        </section>
                     </div>
+                    <section class="surveys__dropdown">
+                        <button class="surveys__filters--sort button">
+                            <span>Choose Category</span>
+                        </button>
+                        <div class="category__dropdown">
+                            <p class="category__dropdown--text">Team activities</p>
+                            <p class="category__dropdown--text">Health & Wellness</p>
+                            <p class="category__dropdown--text">Gaming & Entertainment</p>
+                            <p class="category__dropdown--text">Education & Learning</p>
+                            <p class="category__dropdown--text">Lifestyle & Preferences</p>
+                            <p class="category__dropdown--text">Technology & Innovation</p>
+                        </div>
+                        <span class="surveys__dropdown--choosen">Gaming & Entertainment</span>
+                    </section>
                 </div>
             </div>
             <div class="surveyform__inputfield inputfield">
