@@ -1,0 +1,25 @@
+@use "../../../styles/abstract/mixins"as m;
+@use "../../../styles/abstract/variables"as v;
+
+.surveycreate {
+    padding: 40px 54px;
+    background-color: v.$primaryPurple;
+    @include m.flexC($align: flex-start, $gap: 48px);
+    border-radius: 5px 100px 5px 5px;
+}
+
+.surveycreate__header {
+    width: 100%;
+    padding-bottom: 32px;
+    @include m.flexR($justify: space-between, $align: flex-end);
+}
+
+.surveycreate--button {
+    color: #FEFDFF;
+}
+
+.surveycreate__form {
+    padding: 40px 32px;
+    background-color: #8E709929;
+    border-radius: 5px 80px 5px 5px;
+}

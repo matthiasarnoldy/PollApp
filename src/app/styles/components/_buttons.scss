@@ -8,8 +8,7 @@ $btn-icons: (
     //
     'edit': ('w': 16px, 'h': 18px),
     //
-    'close': ('w': 14px, 'h': 14px),
-    //
+    'close': ('w': 24px, 'h': 24px),
     'check': ('w': 18px, 'h': 16px),
     'delete': ('w': 14px, 'h': 16px),
     //
@@ -55,6 +54,20 @@ $btn-icons: (
 }
 
 @each $key, $data in $btn-icons {
+    .button__#{$key} {
+        &::after {
+            content: '';
+            display: inline-block;
+            background-image: url('#{i.icon($key, "%23FEFDFF")}');
+            background-repeat: no-repeat;
+            vertical-align: middle;
+            width: map-get($data, 'w');
+            height: map-get($data, 'h');
+        }
+    }
+}
+
+@each $key, $data in $btn-icons {
     .button--#{$key} {
         &::after {
             content: '';
@@ -96,6 +109,7 @@ $btn-icons: (
     font-size: 16px;
     font-weight: 600;
     color: v.$secondaryPurple;
+    width: fit-content;
     padding: 3px 12px 3px 8px;
     border-radius: 0 14px 0 0;
 
