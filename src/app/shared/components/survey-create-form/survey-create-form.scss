@@ -133,3 +133,9 @@
     margin-top: 50px;
     opacity: 0;
 }
+
+.surveycreate__questionlist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 91px;
+}
