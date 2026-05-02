@@ -9,4 +9,5 @@ export const routes: Routes = [
     {path: "home", component: Home},
     {path: "survey/create", component: SurveyCreate},
     {path: "survey/view", component: SurveyView},
+    {path: "**", redirectTo: ""},
 ];

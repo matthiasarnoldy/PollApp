@@ -19,7 +19,22 @@
 }
 
 .surveycreate__form {
+    width: 100%;
     padding: 40px 32px;
     background-color: #8E709929;
     border-radius: 5px 80px 5px 5px;
+}
+
+.surveyform__inputarea {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+}
+
+.surveyform__inputarea--name-date {
+    @include m.flexC($align: flex-start, $gap: 8px);
+}
+
+.surveyform__date-category {
+    @include m.flexR($gap: 8px);
 }
