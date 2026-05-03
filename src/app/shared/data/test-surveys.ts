@@ -15,9 +15,9 @@ export const TEST_SURVEYS: Survey[] = [
         text: 'Which activity should we do?',
         multiple: false,
         answers: [
-          { id: 'a-001-1', text: 'Escape Room', votes: 7 },
-          { id: 'a-001-2', text: 'Bowling', votes: 5 },
-          { id: 'a-001-3', text: 'Cooking Class', votes: 4 },
+          { id: 'a-001-1', text: 'Escape Room', votes: 0 },
+          { id: 'a-001-2', text: 'Bowling', votes: 0 },
+          { id: 'a-001-3', text: 'Cooking Class', votes: 0 },
         ],
       },
     ],

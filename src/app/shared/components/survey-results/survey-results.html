@@ -2,26 +2,33 @@
     Survey results
     <span class="surveyresults--subheadline">LIVE</span>
 </h5>
-<section class="surveyresults__answerlist">
-    @for (question of questionResults(); track question.id; let questionIndex = $index) {
-    <div class="surveyresults__answer">
-        <div class="surveyresults__answer--number">
-            <p class="surveyresults__answer--headline">{{ questionIndex + 1 }}.</p>
-            <div class="surveyresults__answer--header">
-                <p class="surveyresults__answer--headline">{{ question.text }}</p>
+@if (hasAnyVotes()) {
+    <section class="surveyresults__answerlist">
+        @for (question of questionResults(); track question.id; let questionIndex = $index) {
+        <div class="surveyresults__answer">
+            <div class="surveyresults__answer--number">
+                <p class="surveyresults__answer--headline">{{ questionIndex + 1 }}.</p>
+                <div class="surveyresults__answer--header">
+                    <p class="surveyresults__answer--headline">{{ question.text }}</p>
+                </div>
+            </div>
+            <div class="surveyresults__resultlist">
+                @for (answer of question.answers; track answer.id; let answerIndex = $index) {
+                <div class="surveyresults__result" [style.--result-percent]="answer.percent + '%'">
+                    <span class="surveyresults__result--text">{{ getAnswerLetter(answerIndex) }}</span>
+                    <span class="surveyresults__result--bar">
+                        <span class="surveyresults__result--bar-fill"></span>
+                    </span>
+                    <span class="surveyresults__result--percent">{{ answer.percent }}%</span>
+                </div>
+                }
             </div>
         </div>
-        <div class="surveyresults__resultlist">
-            @for (answer of question.answers; track answer.id; let answerIndex = $index) {
-            <div class="surveyresults__result" [style.--result-percent]="answer.percent + '%'">
-                <span class="surveyresults__result--text">{{ getAnswerLetter(answerIndex) }}</span>
-                <span class="surveyresults__result--bar">
-                    <span class="surveyresults__result--bar-fill"></span>
-                </span>
-                <span class="surveyresults__result--percent">{{ answer.percent }}%</span>
-            </div>
-            }
-        </div>
-    </div>
-    }
-</section>
+        }
+    </section>
+} @else {
+    <section class="surveyresults__empty">
+        <p class="surveyresults__empty--headline">Results will be shown here after participants complete the survey.</p>
+        <p class="surveyresults__empty--text">There are no answears yet.</p>
+    </section>
+}

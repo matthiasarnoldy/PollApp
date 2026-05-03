@@ -75,3 +75,23 @@
         text-align: right;
     }
 }
+
+.surveyresults__empty {
+    color: v.$primaryPurple;
+    max-width: 315px;
+    @include m.flexC($align: flex-start, $gap: 72px);
+}
+
+.surveyresults__empty--headline {
+    font-family: "Mulish";
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.surveyresults__empty--text {
+    font-family: "Mulish";
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+}

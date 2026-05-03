@@ -23,12 +23,10 @@ export class Surveys {
   readonly selectedTimeFilter = this.timeFilter.asReadonly();
   readonly filteredSurveys = computed(() => {
     const selectedCategory = this.selectedCategory();
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     return this.surveys().filter((survey) => {
-      const endDate = new Date(`${survey.endDate}T00:00:00`);
       const isPublished = survey.status === 'published';
-      const matchesTimeFilter = this.timeFilter() === 'active' ? isPublished && endDate >= today : isPublished && endDate < today;
+      const isPastSurvey = this.isSurveyPast(survey.id, survey.endDate);
+      const matchesTimeFilter = this.timeFilter() === 'active' ? isPublished && !isPastSurvey : isPublished && isPastSurvey;
       const matchesCategory = !selectedCategory || survey.category === selectedCategory;
       return matchesTimeFilter && matchesCategory;
     });
@@ -64,5 +62,18 @@ export class Surveys {
     const pastDays = Math.abs(diffDays);
     if (pastDays === 1) return 'Ended 1 day ago';
     return `Ended ${pastDays} days ago`;
+  }
+
+  private isSurveyExpired(endDateValue: string): boolean {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endDate = new Date(`${endDateValue}T00:00:00`);
+    return endDate < today;
+  }
+
+  isSurveyPast(surveyId: string, endDateValue: string): boolean {
+    const isAnswered = this.surveyService.isSurveyAnswered(surveyId);
+    const isExpired = this.isSurveyExpired(endDateValue);
+    return isAnswered || isExpired;
   }
 }

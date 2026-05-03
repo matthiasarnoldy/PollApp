@@ -32,7 +32,11 @@
     </div>
     <div class="surveylist">
         @for (survey of filteredSurveys(); track survey.id) {
-            <div routerLink="/survey/view" [queryParams]="{ id: survey.id }" class="surveylist__card">
+            <div
+                [routerLink]="isSurveyPast(survey.id, survey.endDate) ? null : '/survey/view'"
+                [queryParams]="isSurveyPast(survey.id, survey.endDate) ? null : { id: survey.id }"
+                class="surveylist__card"
+                [class.surveylist__card--disabled]="isSurveyPast(survey.id, survey.endDate)">
                 <div class="surveylist__card--header">
                     <p class="surveylist__card--text">{{survey.category}}</p>
                     <p class="surveylist__card--headline">{{survey.title}}</p>
@@ -43,7 +47,7 @@
             <div routerLink="/" class="surveylist__card">
                 <div class="surveylist__card--header">
                     <p class="surveylist__card--text">See you soon</p>
-                    <p class="surveylist__card--headline">No surveys found. Please try again later.</p>
+                    <p class="surveylist__card--headline">No surveys found.</p>
                 </div>
             </div>
         }

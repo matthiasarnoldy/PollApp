@@ -168,6 +168,15 @@
     }
 }
 
+.surveylist__card--disabled {
+    cursor: default;
+    pointer-events: none;
+
+    &:hover {
+        background-color: #D9D9D914;
+    }
+}
+
 .surveylist__card--header {
     @include m.flexC($justify: space-between, $align: flex-start, $gap: 8px);
 }

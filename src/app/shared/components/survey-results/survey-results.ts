@@ -11,6 +11,12 @@ import type { Survey } from '../../interfaces/survey.interface';
 export class SurveyResults {
   readonly survey = input<Survey | null>(null);
 
+  readonly hasAnyVotes = computed(() => {
+    const selectedSurvey = this.survey();
+    if (!selectedSurvey) return false;
+    return selectedSurvey.questions.some((question) => question.answers.some((answer) => answer.votes > 0));
+  });
+
   readonly questionResults = computed(() => {
     const selectedSurvey = this.survey();
     if (!selectedSurvey) return [];

@@ -23,8 +23,9 @@
                 <div class="surveydetail__answerlist">
                     @for (answer of question.answers; track answer.id; let answerIndex = $index) {
                     <label class="surveydetail__answeritem" [for]="question.id + '-' + answer.id">
-                        <input [id]="question.id + '-' + answer.id" [type]="question.multiple ? 'checkbox' : 'radio'"
-                            [name]="question.id">
+                        <input #answerInput [id]="question.id + '-' + answer.id" [type]="question.multiple ? 'checkbox' : 'radio'"
+                            [name]="question.id" [checked]="isAnswerSelected(question.id, answer.id)"
+                            (change)="onAnswerChange(question.id, answer.id, question.multiple, answerInput.checked)">
                         <div class="surveydetail__answeritem--text">
                             <span class="surveydetail__answeritem--letter">{{ getAnswerLetter(answerIndex) }}.</span>
                             <span>{{ answer.text }}</span>
@@ -35,7 +36,7 @@
             </div>
             }
         </div>
-        <button class="survey__detail--button button button--secondary">Complete survey</button>
+        <button type="button" class="survey__detail--button button button--secondary" (click)="completeSurvey()">Complete survey</button>
     </div>
     }
 </section>
