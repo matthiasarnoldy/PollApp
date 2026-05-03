@@ -8,7 +8,6 @@ import { SurveyService } from '../../services/survey.service';
   templateUrl: './survey-view-detail.html',
   styleUrl: './survey-view-detail.scss',
 })
-export class SurveyViewDetail {}
 export class SurveyViewDetail {
   private readonly surveyService = inject(SurveyService);
 

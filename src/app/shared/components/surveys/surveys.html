@@ -1,80 +1,51 @@
 <section class="surveys">
     <div class="surveys__filters">
         <div class="surveys__filters--survey">
-            <button class="surveys__button button button--filter">Active survey</button>
-            <button class="surveys__button button button--filter">Past survey</button>
+            <button
+                type="button"
+                class="surveys__button button button--filter"
+                [class.surveys__button--active]="selectedTimeFilter() === 'active'"
+                (click)="setTimeFilter('active')">
+                Active survey
+            </button>
+            <button
+                type="button"
+                class="surveys__button button button--filter"
+                [class.surveys__button--active]="selectedTimeFilter() === 'past'"
+                (click)="setTimeFilter('past')">
+                Past survey
+            </button>
         </div>
-        <section class="surveys__dropdown">
-            <button class="surveys__filters--sort button">
+        <section class="surveys__dropdown" [class.surveys__dropdown--open]="isCategoryDropdownOpen()">
+            <button class="surveys__filters--sort button" type="button" (click)="toggleCategoryDropdown()">
                 <span>Sort by Categories</span>
             </button>
             <div class="category__dropdown">
-                <p class="category__dropdown--text">Team activities</p>
-                <p class="category__dropdown--text">Health & Wellness</p>
-                <p class="category__dropdown--text">Gaming & Entertainment</p>
-                <p class="category__dropdown--text">Education & Learning</p>
-                <p class="category__dropdown--text">Lifestyle & Preferences</p>
-                <p class="category__dropdown--text">Technology & Innovation</p>
+                @for (category of categories(); track category) {
+                    <p class="category__dropdown--text" (click)="selectCategory(category)">{{ category }}</p>
+                } @empty {
+                    <p class="category__dropdown--text">No category</p>
+                }
             </div>
-            <span class="surveys__dropdown--choosen">Gaming & Entertainment</span>
+            <span class="surveys__dropdown--choosen" (click)="clearCategoryFilter()">{{ selectedCategoryLabel() }}</span>
         </section>
     </div>
     <div class="surveylist">
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Team activities</p>
-                <p class="surveylist__card--headline">Let’s Plan the Next Team Event Together</p>
+        @for (survey of filteredSurveys(); track survey.id) {
+            <div routerLink="survey/view" class="surveylist__card">
+                <div class="surveylist__card--header">
+                    <p class="surveylist__card--text">{{survey.category}}</p>
+                    <p class="surveylist__card--headline">{{survey.title}}</p>
+                </div>
+                <p class="surveylist__card--end">{{ getSurveyEndLabel(survey.endDate) }}</p>
             </div>
-            <p class="surveylist__card--end">Ends in 1 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Gaming & Entertainment</p>
-                <p class="surveylist__card--headline">Gaming habits and favorite games!</p>
+        } @empty {
+            <div routerLink="/" class="surveylist__card">
+                <div class="surveylist__card--header">
+                    <p class="surveylist__card--text">See you soon</p>
+                    <p class="surveylist__card--headline">No surveys found. Please try again later.</p>
+                </div>
             </div>
-            <p class="surveylist__card--end">Ends in 2 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Gaming & Entertainment</p>
-                <p class="surveylist__card--headline">Gaming habits and favorite games!</p>
-            </div>
-            <p class="surveylist__card--end">Ends in 3 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Health & Wellness</p>
-                <p class="surveylist__card--headline">Fit & wellness survey!</p>
-            </div>
-            <p class="surveylist__card--end">Ends in 2 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Health & Wellness</p>
-                <p class="surveylist__card--headline">Fit & wellness survey!</p>
-            </div>
-            <p class="surveylist__card--end">Ends in 3 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Team activities</p>
-                <p class="surveylist__card--headline">Let’s Plan the Next Team Event Together</p>
-            </div>
-            <p class="surveylist__card--end">Ends in 1 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Health & Wellness</p>
-                <p class="surveylist__card--headline">Fit & wellness survey!</p>
-            </div>
-            <p class="surveylist__card--end">Ends in 3 day</p>
-        </div>
-        <div routerLink="survey/view" class="surveylist__card">
-            <div class="surveylist__card--header">
-                <p class="surveylist__card--text">Team activities</p>
-                <p class="surveylist__card--headline">Let’s Plan the Next Team Event Together</p>
-            </div>
-            <p class="surveylist__card--end">Ends in 1 day</p>
-        </div>
+        }
     </div>
 </section>

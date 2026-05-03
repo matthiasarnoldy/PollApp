@@ -24,6 +24,10 @@
     @include m.flexR($gap: 24px);
 }
 
+.surveys__button--active {
+    background-color: v.$primaryOrange;
+}
+
 .surveys__dropdown {
     position: relative;
     width: 200px;
@@ -90,29 +94,45 @@
             background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
         }
     }
+}
 
-    &:active {
+.surveys__dropdown--open {
+    .surveys__filters--sort {
         background-color: #D9D9D91F;
-
-        + .category__dropdown {
-            height: fit-content;
-            padding: 8px 4px;
-            opacity: 1;
-            pointer-events: auto;
-        }
 
         &::after {
             background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
             transform: rotate(180deg) translateX(-4px);
         }
     }
+
+    .category__dropdown {
+        height: fit-content;
+        padding: 8px 4px;
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .surveys__dropdown--choosen {
     position: absolute;
+    display: inline-block;
     padding: 4px 6px;
     margin-top: 50px;
-    opacity: 0;
+    opacity: 1;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:not(:empty):hover::after {
+        content: '×';
+        position: absolute;
+        top: 50%;
+        right: -8px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        font-weight: 700;
+        color: v.$primaryOrange;
+    }
 }
 
 .surveylist {
@@ -121,6 +141,7 @@
     padding-right: 24px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-content: start;
     gap: 16px;
     overflow-y: scroll;
 
