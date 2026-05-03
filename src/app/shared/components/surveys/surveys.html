@@ -32,7 +32,7 @@
     </div>
     <div class="surveylist">
         @for (survey of filteredSurveys(); track survey.id) {
-            <div routerLink="survey/view" class="surveylist__card">
+            <div routerLink="/survey/view" [queryParams]="{ id: survey.id }" class="surveylist__card">
                 <div class="surveylist__card--header">
                     <p class="surveylist__card--text">{{survey.category}}</p>
                     <p class="surveylist__card--headline">{{survey.title}}</p>

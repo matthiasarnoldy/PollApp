@@ -35,7 +35,7 @@ body {
     @include m.flexC($justify: flex-start);
     cursor: default;
 
-    @inclv.prv.$prude m.breakpointMin(1440px) {
+    @include m.breakpointMin(1440px) {
         width: 1440px;
     }
 }

@@ -1,5 +1,5 @@
 <app-header class="header--survey"></app-header>
 <section class="survey__view">
-    <app-survey-view-detail></app-survey-view-detail>
-    <app-survey-results></app-survey-results>
+    <app-survey-view-detail [survey]="selectedSurvey()"></app-survey-view-detail>
+    <app-survey-results [survey]="selectedSurvey()"></app-survey-results>
 </section>

@@ -139,7 +139,7 @@ export const TEST_SURVEYS: Survey[] = [
       {
         id: 'q-007-1',
         text: 'Where should we go?',
-        multiple: false,
+        multiple: true,
         answers: [
           { id: 'a-007-1', text: 'Italian', votes: 6 },
           { id: 'a-007-2', text: 'Sushi', votes: 9 },

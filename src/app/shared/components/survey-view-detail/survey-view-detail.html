@@ -1,170 +1,41 @@
 <section class="survey__view--detail">
+    @if (survey(); as selectedSurvey) {
     <p class="survey__status survey__status--published detail__status">Published</p>
     <div class="survey__detail">
         <div class="detail__headline">
             <div class="headline__info">
-                <p class="headline__info--text">Ends on 01.05.2026</p>
-                <p class="headline__info--category">Category: Team activities</p>
+                <p class="headline__info--text">{{ getEndDateLabel(selectedSurvey.endDate) }}</p>
+                <p class="headline__info--category">Category: {{ selectedSurvey.category }}</p>
             </div>
-            <h4 class="detail__header">Let’s Plan the Next Team Event Together</h4>
-            <p class="headline__info--text">We want to create team activities that everyone will enjoy – share your preferences and ideas in our survey to help us plan better experiences together.</p>
+            <h4 class="detail__header">{{ selectedSurvey.title }}</h4>
+            <p class="headline__info--text">{{ selectedSurvey.description }}</p>
         </div>
         <div class="survey__questionlist">
+            @for (question of selectedSurvey.questions; track question.id; let questionIndex = $index) {
             <div class="surveydetail__question">
                 <div class="surveydetail__question--number">
-                    <p class="surveydetail__question--headline">1.</p>
+                    <p class="surveydetail__question--headline">{{ questionIndex + 1 }}.</p>
                     <div class="surveydetail__question--header">
-                        <p class="surveydetail__question--headline">Which date would work best for you?</p>
-                        <p class="surveydetail__question--info">More than one answers are possible</p>
+                        <p class="surveydetail__question--headline">{{ question.text }}</p>
+                        <p class="surveydetail__question--info">{{ getQuestionInfoLabel(question.multiple) }}</p>
                     </div>
                 </div>
                 <div class="surveydetail__answerlist">
-                    <label class="surveydetail__answeritem" for="question1-option1">
-                        <input id="question1-option1" type="checkbox">
+                    @for (answer of question.answers; track answer.id; let answerIndex = $index) {
+                    <label class="surveydetail__answeritem" [for]="question.id + '-' + answer.id">
+                        <input [id]="question.id + '-' + answer.id" [type]="question.multiple ? 'checkbox' : 'radio'"
+                            [name]="question.id">
                         <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">A.</span>
-                            <span>Friday, 09.05.2026</span>
+                            <span class="surveydetail__answeritem--letter">{{ getAnswerLetter(answerIndex) }}.</span>
+                            <span>{{ answer.text }}</span>
                         </div>
                     </label>
-                    <label class="surveydetail__answeritem" for="question1-option2">
-                        <input id="question1-option2" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">B.</span>
-                            <span>Saturday, 10.05.2026</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question1-option3">
-                        <input id="question1-option3" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">C.</span>
-                            <span>Friday, 16.05.2026</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question1-option4">
-                        <input id="question1-option4" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">D.</span>
-                            <span>Saturday, 17.05.2026</span>
-                        </div>
-                    </label>
+                    }
                 </div>
             </div>
-            <div class="surveydetail__question">
-                <div class="surveydetail__question--number">
-                    <p class="surveydetail__question--headline">2.</p>
-                    <div class="surveydetail__question--header">
-                        <p class="surveydetail__question--headline">Choose the activities you prefer</p>
-                        <p class="surveydetail__question--info">More than one answers are possible</p>
-                    </div>
-                </div>
-                <div class="surveydetail__answerlist">
-                    <label class="surveydetail__answeritem" for="question2-option1">
-                        <input id="question2-option1" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">A.</span>
-                            <span>Outdoor adventure like kayaking</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question2-option2">
-                        <input id="question2-option2" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">B.</span>
-                            <span>Office costume party</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question2-option3">
-                        <input id="question2-option3" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">C.</span>
-                            <span>Bowling, mini-golf, volleyball</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question2-option4">
-                        <input id="question2-option4" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">D.</span>
-                            <span>Beach party, music and cocktails</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question2-option5">
-                        <input id="question2-option5" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">D.</span>
-                            <span>Escape room</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="surveydetail__question">
-                <div class="surveydetail__question--number">
-                    <p class="surveydetail__question--headline">3.</p>
-                    <div class="surveydetail__question--header">
-                        <p class="surveydetail__question--headline">What's most important for you in a team event?</p>
-                    </div>
-                </div>
-                <div class="surveydetail__answerlist">
-                    <label class="surveydetail__answeritem" for="question3-option1">
-                        <input id="question1-option3" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">A.</span>
-                            <span>Team binding</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question3-option2">
-                        <input id="question3-option2" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">B.</span>
-                            <span>Food and drinks</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question3-option3">
-                        <input id="question3-option3" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">C.</span>
-                            <span>Trying something new</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question3-option4">
-                        <input id="question3-option4" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">D.</span>
-                            <span>Keeping it low-key and stress-free</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="surveydetail__question">
-                <div class="surveydetail__question--number">
-                    <p class="surveydetail__question--headline">4.</p>
-                    <div class="surveydetail__question--header">
-                        <p class="surveydetail__question--headline">How long would you prefer the event to last?</p>
-                    </div>
-                </div>
-                <div class="surveydetail__answerlist">
-                    <label class="surveydetail__answeritem" for="question4-option1">
-                        <input id="question4-option1" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">A.</span>
-                            <span>Half a day</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question4-option2">
-                        <input id="question4-option2" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">B.</span>
-                            <span>Full day</span>
-                        </div>
-                    </label>
-                    <label class="surveydetail__answeritem" for="question4-option3">
-                        <input id="question4-option3" type="checkbox">
-                        <div class="surveydetail__answeritem--text">
-                            <span class="surveydetail__answeritem--letter">C.</span>
-                            <span>Evening only</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
+            }
         </div>
         <button class="survey__detail--button button button--secondary">Complete survey</button>
     </div>
+    }
 </section>

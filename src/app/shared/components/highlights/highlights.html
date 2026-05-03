@@ -3,27 +3,22 @@
     <div class="highlights__overview">
         <p class="highlights__description">Ending soon surveys</p>
         <div class="highlights__cards">
-            <div routerLink="survey/view" class="highlights__card">
-                <div class="highlights__card--header">
-                    <p class="highlights__card--category">Team activities</p>
-                    <p class="highlights__card--headline">Let’s Plan the Next Team Event Together</p>
+            @for (survey of highlightSurveys(); track survey.id) {
+                <div routerLink="/survey/view" [queryParams]="{ id: survey.id }" class="highlights__card">
+                    <div class="highlights__card--header">
+                        <p class="highlights__card--category">{{ survey.category }}</p>
+                        <p class="highlights__card--headline">{{ survey.title }}</p>
+                    </div>
+                    <p class="highlights__card--end">{{ getSurveyEndLabel(survey.endDate) }}</p>
                 </div>
-                <p class="highlights__card--end">Ends in 1 day</p>
-            </div>
-            <div routerLink="survey/view" class="highlights__card">
-                <div class="highlights__card--header">
-                    <p class="highlights__card--category">Health & Wellness</p>
-                    <p class="highlights__card--headline">Fit & wellness survey!</p>
+            } @empty {
+                <div routerLink="/" class="surveylist__card">
+                    <div class="surveylist__card--header">
+                        <p class="surveylist__card--text">See you soon</p>
+                        <p class="surveylist__card--headline">No surveys found. Please try again later.</p>
+                    </div>
                 </div>
-                <p class="highlights__card--end">Ends in 2 day</p>
-            </div>
-            <div routerLink="survey/view" class="highlights__card">
-                <div class="highlights__card--header">
-                    <p class="highlights__card--category">Gaming & Entertainment</p>
-                    <p class="highlights__card--headline">Gaming habits and favorite games!</p>
-                </div>
-                <p class="highlights__card--end">Ends in 3 day</p>
-            </div>
+            }
         </div>
     </div>
 </section>
