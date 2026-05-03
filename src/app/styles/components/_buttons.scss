@@ -5,14 +5,12 @@
 
 $btn-icons: (
     'view': ('w': 22px, 'h': 16px),
-    //
     'edit': ('w': 16px, 'h': 18px),
-    //
     'close': ('w': 24px, 'h': 24px),
     'check': ('w': 18px, 'h': 16px),
     'delete': ('w': 14px, 'h': 16px),
-    //
     'add-circle': ('w': 20px, 'h': 20px),
+    'add-circle-s': ('w': 16px, 'h': 16px),
 );
 
 .button {
@@ -42,6 +40,9 @@ $btn-icons: (
     font-size: 16px;
     font-weight: 700;
     color: #FEFDFF;
+    width: fit-content;
+    height: fit-content;
+    min-height: 40px;
     padding: 8px 12px;
     background-color: #FFB7704D;
     @include m.flexR($gap: 10px);
@@ -50,6 +51,34 @@ $btn-icons: (
 
     &:hover {
         background-color: #FFB77099;
+    }
+}
+
+.button--tertiary {
+    font-family: "Nokora";
+    font-size: 16px;
+    font-weight: 700;
+    color: #FEFDFF;
+    padding: 8px 12px;
+    background-color: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: all 100ms ease-out;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 4px;
+        height: 1px;
+        background-color: currentColor;
+    }
+
+    &:hover {
+        background-color: #FAF5FE33;
     }
 }
 
