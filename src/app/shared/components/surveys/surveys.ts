@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+import { SurveyService } from '../../services/survey.service';
 
 @Component({
   selector: 'app-surveys',
@@ -7,4 +9,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './surveys.html',
   styleUrl: './surveys.scss',
 })
-export class Surveys {}
+export class Surveys {
+  private readonly surveyService = inject(SurveyService);
+
+  readonly surveys = this.surveyService.surveys;
+}

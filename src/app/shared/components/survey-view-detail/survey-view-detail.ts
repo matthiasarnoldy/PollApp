@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+
+import { SurveyService } from '../../services/survey.service';
 
 @Component({
   selector: 'app-survey-view-detail',
@@ -7,3 +9,8 @@ import { Component } from '@angular/core';
   styleUrl: './survey-view-detail.scss',
 })
 export class SurveyViewDetail {}
+export class SurveyViewDetail {
+  private readonly surveyService = inject(SurveyService);
+
+  readonly surveys = this.surveyService.surveys;
+}
