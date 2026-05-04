@@ -63,6 +63,13 @@
     z-index: 2;
     transition: all 300ms;
 
+    .surveys__dropdown.open & {
+        height: fit-content;
+        padding: 8px 4px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     &--text {
         font-family: "Mulish";
         font-size: 16px;
@@ -112,14 +119,9 @@
 
     &:active {
         background-color: #D9D9D91F;
+    }
 
-        + .category__dropdown {
-            height: fit-content;
-            padding: 8px 4px;
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+    .surveys__dropdown.open & {
         &::after {
             background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
             transform: rotate(180deg) translateX(-4px);
@@ -129,9 +131,27 @@
 
 .surveys__dropdown--choosen {
     position: absolute;
+    display: inline-block;
     padding: 4px 6px;
     margin-top: 50px;
     opacity: 0;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:not(:empty) {
+        opacity: 1;
+    }
+
+    &:not(:empty):hover::after {
+        content: '×';
+        position: absolute;
+        top: 50%;
+        right: -8px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        font-weight: 700;
+        color: v.$primaryOrange;
+    }
 }
 
 .surveycreate__questionlist {

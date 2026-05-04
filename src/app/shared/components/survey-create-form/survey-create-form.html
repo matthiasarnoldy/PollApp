@@ -4,7 +4,7 @@
             <p class="survey__status survey__status--draft">Draft</p>
             <h3>Create new survey</h3>
         </div>
-        <button class="surveycreate--button button button--secondary button__close">Cancel</button>
+        <button class="surveycreate--button button button--secondary button__close" [routerLink]="'/'">Cancel</button>
     </div>
     <form [formGroup]="form" class="surveycreate__form">
         <section class="surveyform__inputarea">
@@ -46,19 +46,18 @@
                         </div>
                         <span class="input--error-message" [style.opacity]="isEndDateInvalid() ? 1 : 0">{{ getEndDateErrorMessage() || 'Please enter a valid Date' }}</span>
                     </div>
-                    <section class="surveys__dropdown">
-                        <button class="surveys__filters--sort button">
+                    <section class="surveys__dropdown" [class.open]="isCategoryDropdownOpen()">
+                        <button type="button" class="surveys__filters--sort button" (click)="toggleCategoryDropdown()">
                             <span>Choose Category</span>
                         </button>
                         <div class="category__dropdown">
-                            <p class="category__dropdown--text">Team activities</p>
-                            <p class="category__dropdown--text">Health & Wellness</p>
-                            <p class="category__dropdown--text">Gaming & Entertainment</p>
-                            <p class="category__dropdown--text">Education & Learning</p>
-                            <p class="category__dropdown--text">Lifestyle & Preferences</p>
-                            <p class="category__dropdown--text">Technology & Innovation</p>
+                            @for (cat of categories; track cat) {
+                            <p class="category__dropdown--text" (click)="selectCategory(cat)">{{ cat }}</p>
+                            }
                         </div>
-                        <span class="surveys__dropdown--choosen">Gaming & Entertainment</span>
+                        @if (categoryControl.value) {
+                        <span class="surveys__dropdown--choosen" (click)="clearCategory()">{{ categoryControl.value }}</span>
+                        }
                     </section>
                 </div>
             </div>

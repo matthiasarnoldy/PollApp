@@ -1,12 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import { SurveyService } from '../../services/survey.service';
+import type { SurveyCategory } from '../../types/survey-category.type';
 import { parseDdMmYyyy } from '../../utils/date.utils';
 
 @Component({
   selector: 'app-survey-create-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './survey-create-form.html',
   styleUrl: './survey-create-form.scss',
 })
@@ -14,6 +16,15 @@ export class SurveyCreateForm {
   private readonly surveyService = inject(SurveyService);
   private readonly maxAnswersPerQuestion = 6;
   private readonly maxQuestions = 6;
+  readonly categories: SurveyCategory[] = [
+    'Team activities',
+    'Health & Wellness',
+    'Gaming & Entertainment',
+    'Education & Learning',
+    'Lifestyle & Preferences',
+    'Technology & Innovation',
+  ];
+  readonly isCategoryDropdownOpen = signal(false);
   private readonly surveyNamePattern = /^(?=.{3,80}$)(?=.*[A-Za-zÄÖÜäöüß])[A-Za-zÄÖÜäöüß0-9][A-Za-zÄÖÜäöüß0-9 .,'&()\-]*[A-Za-zÄÖÜäöüß0-9]$/;
   private readonly endDatePattern = /^$|^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.[0-9]{4}$/;
   
@@ -44,6 +55,7 @@ export class SurveyCreateForm {
       validators: [Validators.pattern(this.endDatePattern), this.notPastDateValidator()],
     }),
     description: new FormControl<string>('', { nonNullable: true }),
+    category: new FormControl<SurveyCategory | null>(null),
     questions: new FormArray([this.createQuestionGroup()]),
   });
 
@@ -82,18 +94,20 @@ export class SurveyCreateForm {
     const isDeleting = inputEvent.inputType?.startsWith('delete') ?? false;
     const shouldAppendTrailingDot = !isDeleting;
     const digitsOnly = inputElement.value.replace(/\D/g, '').slice(0, 8);
-    let formattedValue = digitsOnly;
-    if (digitsOnly.length <= 2) {
-      formattedValue = digitsOnly;
-      if (digitsOnly.length === 2 && shouldAppendTrailingDot) formattedValue += '.';
-    } else if (digitsOnly.length <= 4) {
-      formattedValue = `${digitsOnly.slice(0, 2)}.${digitsOnly.slice(2)}`;
-      if (digitsOnly.length === 4 && shouldAppendTrailingDot) formattedValue += '.';
-    } else {
-      formattedValue = `${digitsOnly.slice(0, 2)}.${digitsOnly.slice(2, 4)}.${digitsOnly.slice(4)}`;
-    }
+    const formattedValue = this.formatDateInput(digitsOnly, shouldAppendTrailingDot);
     inputElement.value = formattedValue;
     this.endDateControl.setValue(formattedValue);
+  }
+
+  private formatDateInput(digitsOnly: string, appendTrailingDot: boolean): string {
+    if (digitsOnly.length <= 2) {
+      return digitsOnly.length === 2 && appendTrailingDot ? `${digitsOnly}.` : digitsOnly;
+    }
+    if (digitsOnly.length <= 4) {
+      const partial = `${digitsOnly.slice(0, 2)}.${digitsOnly.slice(2)}`;
+      return digitsOnly.length === 4 && appendTrailingDot ? `${partial}.` : partial;
+    }
+    return `${digitsOnly.slice(0, 2)}.${digitsOnly.slice(2, 4)}.${digitsOnly.slice(4)}`;
   }
 
   get questionsArray(): FormArray<FormGroup<{
@@ -121,6 +135,23 @@ export class SurveyCreateForm {
       return;
     }
     questionControl.setValue(`${trimmedQuestion}?`);
+  }
+
+  get categoryControl(): FormControl<SurveyCategory | null> {
+    return this.form.controls.category;
+  }
+
+  toggleCategoryDropdown(): void {
+    this.isCategoryDropdownOpen.update((open) => !open);
+  }
+
+  selectCategory(category: SurveyCategory): void {
+    this.categoryControl.setValue(category);
+    this.isCategoryDropdownOpen.set(false);
+  }
+
+  clearCategory(): void {
+    this.categoryControl.setValue(null);
   }
 
   clearBaseField(fieldName: 'name' | 'setEndDate' | 'description'): void {
