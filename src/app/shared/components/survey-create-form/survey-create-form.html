@@ -12,9 +12,6 @@
                 <div class="surveyform__inputfield inputfield">
                     <div class="label--required">
                         <label for="survey-name">Survey name</label>
-                        @if (isSurveyNameInvalid()) {
-                        <span class="input--error-message">{{ getSurveyNameErrorMessage() }}</span>
-                        }
                     </div>
                     <div class="inputfield__wrapper">
                         <input class="input" id="survey-name" type="text" formControlName="name" (blur)="nameControl.markAsTouched()" />
@@ -26,16 +23,19 @@
                                 fill="#FEFDFF" />
                         </svg>
                     </div>
+                    <span class="input--error-message" [style.opacity]="isSurveyNameInvalid() ? 1 : 0">{{ getSurveyNameErrorMessage() || 'This field is required' }}</span>
                 </div>
                 <div class="surveyform__date-category">
                     <div class="surveyform__inputfield inputfield">
-                        <label for="survey-date">
-                            Set end date
-                            <span class="label--optional">(optional)</span>
-                        </label>
+                        <div class="label--required">
+                            <label for="survey-date">
+                                Set end date
+                                <span class="label--optional">(optional)</span>
+                            </label>
+                        </div>
                         <div class="inputfield__wrapper">
                             <input class="input" id="survey-date" type="text" placeholder="dd.mm.yyyy"
-                                formControlName="setEndDate" />
+                                formControlName="setEndDate" (input)="onEndDateInput($event)" (blur)="endDateControl.markAsTouched()" />
                             <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
                                 (click)="clearBaseField('setEndDate')"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -44,6 +44,7 @@
                                     fill="#FEFDFF" />
                             </svg>
                         </div>
+                        <span class="input--error-message" [style.opacity]="isEndDateInvalid() ? 1 : 0">{{ getEndDateErrorMessage() || 'Please enter a valid Date' }}</span>
                     </div>
                     <section class="surveys__dropdown">
                         <button class="surveys__filters--sort button">

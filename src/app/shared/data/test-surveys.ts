@@ -7,8 +7,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Let’s Plan the Next Team Event Together',
     description: 'Choose activities and a preferred weekday for the next team event.',
     status: 'published',
-    createdAt: '2026-04-20',
-    endDate: '2026-05-05',
+    createdAt: '20.04.2026',
+    endDate: '05.05.2026',
     questions: [
       {
         id: 'q-001-1',
@@ -28,8 +28,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Gaming Habits and Favorite Genres',
     description: 'Understand what the team plays and when they play most often.',
     status: 'published',
-    createdAt: '2026-04-18',
-    endDate: '2026-05-06',
+    createdAt: '18.04.2026',
+    endDate: '06.05.2026',
     questions: [
       {
         id: 'q-002-1',
@@ -49,8 +49,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Weekly Wellness Check-In',
     description: 'Quick pulse check on energy, sleep and stress levels.',
     status: 'published',
-    createdAt: '2026-04-19',
-    endDate: '2026-05-08',
+    createdAt: '19.04.2026',
+    endDate: '08.05.2026',
     questions: [
       {
         id: 'q-003-1',
@@ -70,8 +70,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Learning Goals for Q2',
     description: 'Identify which skills should be prioritized this quarter.',
     status: 'draft',
-    createdAt: '2026-05-01',
-    endDate: '2026-05-25',
+    createdAt: '01.05.2026',
+    endDate: '25.05.2026',
     questions: [
       {
         id: 'q-004-1',
@@ -91,8 +91,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Remote Work Preferences',
     description: 'Find a balanced office and remote setup for the team.',
     status: 'published',
-    createdAt: '2026-04-22',
-    endDate: '2026-05-10',
+    createdAt: '22.04.2026',
+    endDate: '10.05.2026',
     questions: [
       {
         id: 'q-005-1',
@@ -112,8 +112,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'AI Tools in Daily Workflow',
     description: 'Assess adoption and opportunities for AI-based tooling.',
     status: 'published',
-    createdAt: '2026-04-25',
-    endDate: '2026-05-12',
+    createdAt: '25.04.2026',
+    endDate: '12.05.2026',
     questions: [
       {
         id: 'q-006-1',
@@ -133,8 +133,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Lunch Spot Voting',
     description: 'Pick the best lunch place for Friday.',
     status: 'published',
-    createdAt: '2026-03-28',
-    endDate: '2026-04-04',
+    createdAt: '28.03.2026',
+    endDate: '04.04.2026',
     questions: [
       {
         id: 'q-007-1',
@@ -154,8 +154,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Office Ergonomics Feedback',
     description: 'Collect feedback about desks, chairs and monitor setup.',
     status: 'published',
-    createdAt: '2026-03-15',
-    endDate: '2026-03-30',
+    createdAt: '15.03.2026',
+    endDate: '30.03.2026',
     questions: [
       {
         id: 'q-008-1',
@@ -175,8 +175,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Movie Night Theme',
     description: 'Choose a theme for the next team movie night.',
     status: 'draft',
-    createdAt: '2026-05-02',
-    endDate: '2026-05-20',
+    createdAt: '02.05.2026',
+    endDate: '20.05.2026',
     questions: [
       {
         id: 'q-009-1',
@@ -196,8 +196,8 @@ export const TEST_SURVEYS: Survey[] = [
     title: 'Preferred Frontend Stack 2026',
     description: 'Gather opinions on framework and tooling choices.',
     status: 'published',
-    createdAt: '2026-02-10',
-    endDate: '2026-02-24',
+    createdAt: '10.02.2026',
+    endDate: '24.02.2026',
     questions: [
       {
         id: 'q-010-1',

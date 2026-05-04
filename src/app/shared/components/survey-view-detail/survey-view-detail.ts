@@ -2,6 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import type { Survey } from '../../interfaces/survey.interface';
+import { parseDdMmYyyy } from '../../utils/date.utils';
 import type { SurveyVoteSelection } from '../../interfaces/survey-vote-submission.interface';
 import { SurveyService } from '../../services/survey.service';
 
@@ -19,7 +20,7 @@ export class SurveyViewDetail {
   readonly survey = input<Survey | null>(null);
 
   getEndDateLabel(endDateValue: string): string {
-    const formattedDate = new Intl.DateTimeFormat('de-DE').format(new Date(`${endDateValue}T00:00:00`));
+    const formattedDate = new Intl.DateTimeFormat('de-DE').format(parseDdMmYyyy(endDateValue));
     return `Ends on ${formattedDate}`;
   }
 

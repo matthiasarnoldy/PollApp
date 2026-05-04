@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 import { SurveyService } from '../../services/survey.service';
+import { parseDdMmYyyy } from '../../utils/date.utils';
 
 @Component({
   selector: 'app-survey-create-form',
@@ -14,6 +15,7 @@ export class SurveyCreateForm {
   private readonly maxAnswersPerQuestion = 6;
   private readonly maxQuestions = 6;
   private readonly surveyNamePattern = /^(?=.{3,80}$)(?=.*[A-Za-zÄÖÜäöüß])[A-Za-zÄÖÜäöüß0-9][A-Za-zÄÖÜäöüß0-9 .,'&()\-]*[A-Za-zÄÖÜäöüß0-9]$/;
+  private readonly endDatePattern = /^$|^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.[0-9]{4}$/;
   
   readonly surveys = this.surveyService.surveys;
 
@@ -37,7 +39,10 @@ export class SurveyCreateForm {
       nonNullable: true,
       validators: [Validators.required, Validators.pattern(this.surveyNamePattern)],
     }),
-    setEndDate: new FormControl<string>('', { nonNullable: true }),
+    setEndDate: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.pattern(this.endDatePattern), this.notPastDateValidator()],
+    }),
     description: new FormControl<string>('', { nonNullable: true }),
     questions: new FormArray([this.createQuestionGroup()]),
   });
@@ -46,14 +51,49 @@ export class SurveyCreateForm {
     return this.form.controls.name;
   }
 
+  get endDateControl(): FormControl<string> {
+    return this.form.controls.setEndDate;
+  }
+
   isSurveyNameInvalid(): boolean {
-    return this.nameControl.invalid && (this.nameControl.dirty || this.nameControl.touched);
+    return this.nameControl.invalid && this.nameControl.touched;
   }
 
   getSurveyNameErrorMessage(): string {
     if (this.nameControl.hasError('required')) return 'This field is required';
     if (this.nameControl.hasError('pattern')) return 'Please enter a valid name';
     return '';
+  }
+
+  isEndDateInvalid(): boolean {
+    return this.endDateControl.invalid && this.endDateControl.touched;
+  }
+
+  getEndDateErrorMessage(): string {
+    if (this.endDateControl.hasError('pattern') || this.endDateControl.hasError('invalidDate')) return 'Please enter a valid Date';
+    if (this.endDateControl.hasError('pastDate')) return 'Date cannot be in the past';
+    return '';
+  }
+
+  onEndDateInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement | null;
+    if (!inputElement) return;
+    const inputEvent = event as InputEvent;
+    const isDeleting = inputEvent.inputType?.startsWith('delete') ?? false;
+    const shouldAppendTrailingDot = !isDeleting;
+    const digitsOnly = inputElement.value.replace(/\D/g, '').slice(0, 8);
+    let formattedValue = digitsOnly;
+    if (digitsOnly.length <= 2) {
+      formattedValue = digitsOnly;
+      if (digitsOnly.length === 2 && shouldAppendTrailingDot) formattedValue += '.';
+    } else if (digitsOnly.length <= 4) {
+      formattedValue = `${digitsOnly.slice(0, 2)}.${digitsOnly.slice(2)}`;
+      if (digitsOnly.length === 4 && shouldAppendTrailingDot) formattedValue += '.';
+    } else {
+      formattedValue = `${digitsOnly.slice(0, 2)}.${digitsOnly.slice(2, 4)}.${digitsOnly.slice(4)}`;
+    }
+    inputElement.value = formattedValue;
+    this.endDateControl.setValue(formattedValue);
   }
 
   get questionsArray(): FormArray<FormGroup<{
@@ -156,5 +196,21 @@ export class SurveyCreateForm {
 
   getAnswerLabel(index: number): string {
     return `${String.fromCharCode(65 + index)}.`;
+  }
+
+  private notPastDateValidator(): ValidatorFn {
+    return (control: AbstractControl<string>): ValidationErrors | null => {
+      const value = control.value?.trim();
+      if (!value || !this.endDatePattern.test(value)) return null;
+      const parsedDate = parseDdMmYyyy(value);
+      const [dayString, monthString, yearString] = value.split('.');
+      const isExactDate = parsedDate.getFullYear() === Number(yearString) && parsedDate.getMonth() === Number(monthString) - 1 && parsedDate.getDate() === Number(dayString);
+      if (!isExactDate) return { invalidDate: true };
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      parsedDate.setHours(0, 0, 0, 0);
+      if (parsedDate < today) return { pastDate: true };
+      return null;
+    };
   }
 }

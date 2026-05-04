@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 
 import { SurveyService } from '../../services/survey.service';
 import type { SurveyCategory } from '../../types/survey-category.type';
+import { parseDdMmYyyy } from '../../utils/date.utils';
 
 @Component({
   selector: 'app-surveys',
@@ -53,7 +54,7 @@ export class Surveys {
   getSurveyEndLabel(endDateValue: string): string {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endDate = new Date(`${endDateValue}T00:00:00`);
+    const endDate = parseDdMmYyyy(endDateValue);
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const diffDays = Math.round((endDate.getTime() - today.getTime()) / millisecondsPerDay);
     if (diffDays > 1) return `Ends in ${diffDays} days`;
@@ -67,7 +68,7 @@ export class Surveys {
   private isSurveyExpired(endDateValue: string): boolean {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endDate = new Date(`${endDateValue}T00:00:00`);
+    const endDate = parseDdMmYyyy(endDateValue);
     return endDate < today;
   }
 
