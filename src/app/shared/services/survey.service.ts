@@ -45,6 +45,28 @@ export class SurveyService {
     }));
   }
 
+  private applyVotesToSurvey(survey: Survey, submission: SurveyVoteSubmission): Survey {
+    return {
+      ...survey,
+      questions: survey.questions.map((question) => {
+        const selectedQuestion = submission.selections.find((selection) => selection.questionId === question.id);
+        if (!selectedQuestion || selectedQuestion.answerIds.length === 0) return question;
+        const selectedAnswerIds = question.multiple ? selectedQuestion.answerIds : selectedQuestion.answerIds.slice(0, 1);
+        return {
+          ...question,
+          answers: this.applyVotesToAnswers(question.answers, selectedAnswerIds),
+        };
+      }),
+    };
+  }
+
+  private applyVotesToAnswers(answers: Survey['questions'][number]['answers'], selectedAnswerIds: string[]): Survey['questions'][number]['answers'] {
+    return answers.map((answer) => {
+      if (!selectedAnswerIds.includes(answer.id)) return answer;
+      return { ...answer, votes: answer.votes + 1 };
+    });
+  }
+
   isSurveyAnswered(surveyId: string): boolean {
     return this.answeredSurveyIdsSignal().includes(surveyId);
   }
@@ -52,41 +74,10 @@ export class SurveyService {
   async submitVote(submission: SurveyVoteSubmission): Promise<void> {
     this.surveysSignal.update((surveys) =>
       surveys.map((survey) => {
-        if (survey.id !== submission.surveyId) {
-          return survey;
-        }
-
-        return {
-          ...survey,
-          questions: survey.questions.map((question) => {
-            const selectedQuestion = submission.selections.find((selection) => selection.questionId === question.id);
-
-            if (!selectedQuestion || selectedQuestion.answerIds.length === 0) {
-              return question;
-            }
-
-            const selectedAnswerIds = question.multiple
-              ? selectedQuestion.answerIds
-              : selectedQuestion.answerIds.slice(0, 1);
-
-            return {
-              ...question,
-              answers: question.answers.map((answer) => {
-                if (!selectedAnswerIds.includes(answer.id)) {
-                  return answer;
-                }
-
-                return {
-                  ...answer,
-                  votes: answer.votes + 1,
-                };
-              }),
-            };
-          }),
-        };
+        if (survey.id !== submission.surveyId) return survey;
+        return this.applyVotesToSurvey(survey, submission);
       }),
     );
-
     if (submission.selections.length > 0) {
       this.answeredSurveyIdsSignal.update((answeredSurveyIds) =>
         answeredSurveyIds.includes(submission.surveyId)
