@@ -1,3 +1,6 @@
 <app-header class="header--home"></app-header>
+@if (showPublishedMessage()) {
+<div class="overlay__message">Your survey is now published</div>
+}
 <app-overview></app-overview>
 <app-surveys></app-surveys>

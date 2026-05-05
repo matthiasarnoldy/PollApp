@@ -19,6 +19,18 @@
     color: v.$primaryOrange;
 }
 
+.surveyresults__content {
+    @include m.breakpoint(700px) {
+        display: none;
+    }
+
+    &--open {
+        @include m.breakpoint(700px) {
+            display: block;
+        }
+    }
+}
+
 .surveyresults__answerlist {
     color: v.$primaryPurple;
     max-width: 315px;
@@ -99,6 +111,10 @@
     color: v.$primaryPurple;
     max-width: 315px;
     @include m.flexC($align: flex-start, $gap: 72px);
+
+    @include m.breakpoint(1170px) {
+        max-width: none;
+    }
 }
 
 .surveyresults__empty--headline {
@@ -135,7 +151,7 @@
     &::after {
         content: '';
         display: block;
-        background-image: url('#{i.icon("arrow--dropdown", "%23ffffff")}');
+        background-image: url('#{i.icon("arrow--dropdown", "%2335273a")}');
         background-repeat: no-repeat;
         width: 20px;
         height: 20px;
@@ -155,7 +171,7 @@
         background-color: #D9D9D91F;
     }
 
-    .surveys__dropdown.open & {
+    &.surveys__filters--sort--open {
         &::after {
             background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
             transform: rotate(180deg) translateX(-4px);

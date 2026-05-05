@@ -24,11 +24,12 @@ export class App {
    */
   changeBodyClass(event: NavigationEnd) {
     document.body.className = '';
-    if (event.urlAfterRedirects == '/home' || event.urlAfterRedirects == '/') {
+    const routePath = event.urlAfterRedirects.split('?')[0];
+    if (routePath == '/home' || routePath == '/') {
       document.body.classList.add('home');
-    } else if (event.urlAfterRedirects == '/survey/view') {
+    } else if (routePath == '/survey/view') {
       document.body.classList.add('survey-view');
-    } else if (event.urlAfterRedirects == '/survey/create') {
+    } else if (routePath == '/survey/create') {
       document.body.classList.add('survey-create');
     }
   }

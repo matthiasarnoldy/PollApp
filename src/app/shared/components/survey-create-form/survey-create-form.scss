@@ -50,6 +50,14 @@
     }
 }
 
+.surveycreate--addbutton {
+    color: #FEFDFF;
+
+    @include m.breakpoint(600px) {
+        justify-self: center;
+    }
+}
+
 .surveycreate__form {
     width: 100%;
     padding: 40px 32px;
@@ -306,4 +314,8 @@
 .surveyform--button {
     margin-top: 40px;
     align-self: flex-end;
+
+    @include m.breakpoint(600px) {
+        align-self: center;
+    }
 }

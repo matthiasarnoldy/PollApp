@@ -1,0 +1,29 @@
+.overlay__message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    font-family: "Nerko One";
+    font-size: 24px;
+    font-weight: 400;
+    color: #35273A;
+    padding: 16px;
+    max-width: calc(100% - 16px);
+    text-align: center;
+    background-color: #FEE9D4;
+    border-radius: 5px 50px 5px 5px;
+    animation: overlay-fly-in 1000ms ease-out;
+}
+
+@keyframes overlay-fly-in {
+    from {
+        transform: translate(-50%, 120vh);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
