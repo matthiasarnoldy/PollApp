@@ -51,11 +51,38 @@
             fill: v.$primaryPurple;
         }
     }
+
+    @include m.breakpoint(600px) {
+        display: none;
+    }
 }
 
-.label--required {
-    width: 100%;
-    @include m.flexR($justify: space-between)
+.input--delete-mobile {
+    flex-shrink: 0;
+    border-radius: 3px;
+    transition: all 100ms ease-out;
+    cursor: pointer;
+    display: none;
+
+    &:hover {
+        background-color: #FFB77099;
+
+        > path {
+            fill: v.$primaryPurple;
+        }
+    }
+
+    @include m.breakpoint(600px) {
+        display: block;
+    }
+}
+
+.label-wrapper {
+    @include m.flexR($justify: space-between);
+
+    @include m.breakpoint(600px) {
+        width: 100%;
+    }
 }
 
 .input--error-message {
@@ -81,4 +108,8 @@
 textarea {
     height: 100%;
     resize: none;
+
+    @include m.breakpoint(868px) {
+        height: 150px;
+    }
 }

@@ -27,6 +27,11 @@ export class Highlights {
       .slice(0, 3);
   });
 
+  /**
+   * Returns a human-readable label describing when the survey ends.
+   * Returns `'No end date'` if no end date is set.
+   * @param endDateValue - The end date string in `dd.mm.yyyy` format.
+   */
   getSurveyEndLabel(endDateValue: string): string {
     if (!endDateValue.trim()) return 'No end date';
     const now = new Date();

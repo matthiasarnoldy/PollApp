@@ -1,5 +1,14 @@
 @use "../../../styles/abstract/mixins" as m;
 @use "../../../styles/abstract/variables" as v;
+@use "../../../styles/abstract/icon" as i;
+
+:host {
+    @include m.breakpoint(1170px) {
+        width: 100%;
+    }
+
+    ;
+}
 
 .surveyresults--headline {
     color: v.$primaryPurple;
@@ -13,11 +22,21 @@
 .surveyresults__answerlist {
     color: v.$primaryPurple;
     max-width: 315px;
-    @include m.flexC($align: flex-start, $gap: 24px)
+    @include m.flexC($align: flex-start, $gap: 24px);
+
+    @include m.breakpoint(1170px) {
+        width: 100%;
+        max-width: none;
+    }
 }
 
 .surveyresults__answer {
-    @include m.flexC($align: flex-start, $gap: 16px)
+    @include m.flexC($align: flex-start, $gap: 16px);
+
+    @include m.breakpoint(1170px) {
+        width: 100%;
+        max-width: none;
+    }
 }
 
 .surveyresults__answer--number {
@@ -94,4 +113,52 @@
     font-weight: 700;
     text-align: center;
     width: 100%;
+}
+
+.surveys__filters--sort {
+    font-family: "Mulish";
+    font-size: 18px;
+    font-weight: 700;
+    color: v.$primaryPurple;
+    width: 100%;
+    padding: 4px 6px;
+    background-color: transparent;
+    @include m.flexR($justify: space-between);
+    display: none;
+    border-radius: 6px;
+    transition: all 100ms ease-out;
+
+    @include m.breakpoint(700px) {
+        display: flex;
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        background-image: url('#{i.icon("arrow--dropdown", "%23ffffff")}');
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        transition: color 100ms ease-out;
+        transition: transform 300ms ease-out;
+    }
+
+    &:hover {
+        background-color: #8E70991A;
+
+        &::after {
+            background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
+        }
+    }
+
+    &:active {
+        background-color: #D9D9D91F;
+    }
+
+    .surveys__dropdown.open & {
+        &::after {
+            background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
+            transform: rotate(180deg) translateX(-4px);
+        }
+    }
 }

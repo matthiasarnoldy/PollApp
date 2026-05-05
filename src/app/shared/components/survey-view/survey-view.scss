@@ -2,5 +2,9 @@
 
 .survey__view {
     padding-bottom: 40px;
-    @include m.flexR($justify: flex-start, $gap: 42px)
+    @include m.flexR($justify: flex-start, $gap: 42px);
+
+    @include m.breakpoint(1170px) {
+        @include m.flexC($align: flex-start, $gap: 42px);
+    };
 }

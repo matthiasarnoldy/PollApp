@@ -1,7 +1,11 @@
 <section class="surveycreate">
     <div class="surveycreate__header">
-        <div>
-            <p class="survey__status survey__status--draft">Draft</p>
+        <div class="surveycreate__header--wrapper">
+            <div class="survey__status-wrapper">
+                <p class="survey__status survey__status--draft">Draft</p>
+                <button class="surveycreate--button-mobile button button--secondary button__close"
+                    [routerLink]="'/'"></button>
+            </div>
             <h3>Create new survey</h3>
         </div>
         <button class="surveycreate--button button button--secondary button__close" [routerLink]="'/'">Cancel</button>
@@ -10,41 +14,55 @@
         <section class="surveyform__inputarea">
             <div class="surveyform__inputarea--name-date">
                 <div class="surveyform__inputfield inputfield">
-                    <div class="label--required">
+                    <div class="label-wrapper">
                         <label for="survey-name">Survey name</label>
-                    </div>
-                    <div class="inputfield__wrapper">
-                        <input class="input" id="survey-name" type="text" formControlName="name" (blur)="nameControl.markAsTouched()" />
-                        <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
-                            (click)="clearBaseField('name')"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg class="input--delete-mobile" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                            (click)="clearBaseField('name')" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
                                 fill="#FEFDFF" />
                         </svg>
                     </div>
-                    <span class="input--error-message" [style.opacity]="isSurveyNameInvalid() ? 1 : 0">{{ getSurveyNameErrorMessage() || 'This field is required' }}</span>
+                    <div class="inputfield__wrapper">
+                        <input class="input" id="survey-name" type="text" formControlName="name"
+                            (blur)="nameControl.markAsTouched()" />
+                        <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                            (click)="clearBaseField('name')" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
+                                fill="#FEFDFF" />
+                        </svg>
+                    </div>
+                    <span class="input--error-message" [style.opacity]="isSurveyNameInvalid() ? 1 : 0">{{
+                        getSurveyNameErrorMessage() || 'This field is required' }}</span>
                 </div>
                 <div class="surveyform__date-category">
                     <div class="surveyform__inputfield inputfield">
-                        <div class="label--required">
+                        <div class="label-wrapper">
                             <label for="survey-date">
                                 Set end date
                                 <span class="label--optional">(optional)</span>
                             </label>
-                        </div>
-                        <div class="inputfield__wrapper">
-                            <input class="input" id="survey-date" type="text" placeholder="dd.mm.yyyy"
-                                formControlName="setEndDate" (input)="onEndDateInput($event)" (blur)="endDateControl.markAsTouched()" />
-                            <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
-                                (click)="clearBaseField('setEndDate')"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="input--delete-mobile" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                                (click)="clearBaseField('name')" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
                                     fill="#FEFDFF" />
                             </svg>
                         </div>
-                        <span class="input--error-message" [style.opacity]="isEndDateInvalid() ? 1 : 0">{{ getEndDateErrorMessage() || 'Please enter a valid Date' }}</span>
+                        <div class="inputfield__wrapper">
+                            <input class="input" id="survey-date" type="text" placeholder="dd.mm.yyyy"
+                                formControlName="setEndDate" (input)="onEndDateInput($event)"
+                                (blur)="endDateControl.markAsTouched()" />
+                            <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                                (click)="clearBaseField('setEndDate')" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
+                                    fill="#FEFDFF" />
+                            </svg>
+                        </div>
+                        <span class="input--error-message" [style.opacity]="isEndDateInvalid() ? 1 : 0">{{
+                            getEndDateErrorMessage() || 'Please enter a valid Date' }}</span>
                     </div>
                     <section class="surveys__dropdown" [class.open]="isCategoryDropdownOpen()">
                         <button type="button" class="surveys__filters--sort button" (click)="toggleCategoryDropdown()">
@@ -56,21 +74,29 @@
                             }
                         </div>
                         @if (categoryControl.value) {
-                        <span class="surveys__dropdown--choosen" (click)="clearCategory()">{{ categoryControl.value }}</span>
+                        <span class="surveys__dropdown--choosen" (click)="clearCategory()">{{ categoryControl.value
+                            }}</span>
                         }
                     </section>
                 </div>
             </div>
             <div class="surveyform__inputfield inputfield">
-                <label for="survey-description">
-                    Description text
-                    <span class="label--optional">(optional)</span>
-                </label>
+                <div class="label-wrapper">
+                    <label for="survey-description">
+                        Description text
+                        <span class="label--optional">(optional)</span>
+                    </label>
+                    <svg class="input--delete-mobile" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                        (click)="clearBaseField('name')" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
+                            fill="#FEFDFF" />
+                    </svg>
+                </div>
                 <div class="inputfield__wrapper description--field">
                     <textarea class="input" id="survey-description" formControlName="description"></textarea>
                     <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
-                        (click)="clearBaseField('description')"
-                        xmlns="http://www.w3.org/2000/svg">
+                        (click)="clearBaseField('description')" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
                             fill="#FEFDFF" />
@@ -84,8 +110,8 @@
                 <div class="surveyform__question">
                     <div class="surveycreate__label--wrapper">
                         <label [for]="'survey-question-' + questionIndex">{{ questionIndex + 1 }}. Question</label>
-                        <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
-                            (click)="deleteQuestion(questionIndex)"
+                        <svg class="input--delete input--delete-mobile" width="26" height="26" viewBox="0 0 26 26"
+                            fill="none" (click)="deleteQuestion(questionIndex)"
                             [attr.title]="getQuestionDeleteTooltip(questionIndex)"
                             [attr.aria-label]="getQuestionDeleteTooltip(questionIndex)"
                             xmlns="http://www.w3.org/2000/svg">
@@ -95,21 +121,36 @@
                                 fill="#FEFDFF" />
                         </svg>
                     </div>
-                    <input class="input" [id]="'survey-question-' + questionIndex" type="text" formControlName="question" (blur)="ensureQuestionMark(questionIndex)" />
+                    <input class="input" [id]="'survey-question-' + questionIndex" type="text"
+                        formControlName="question" (blur)="ensureQuestionMark(questionIndex)" />
                 </div>
                 <div class="surveyform__answer">
                     <div class="surveyform__answer--header">
                         <p class="surveyform__answer--headline">Answers</p>
                         <div class="surveyform__answer--multiple">
-                            <input [id]="'allow-multiple-answers-' + questionIndex" type="checkbox" formControlName="allowMultipleAnswers">
+                            <input [id]="'allow-multiple-answers-' + questionIndex" type="checkbox"
+                                formControlName="allowMultipleAnswers">
                             <label [for]="'allow-multiple-answers-' + questionIndex">Allow multiple answers.</label>
                         </div>
                     </div>
                     <div class="surveyform__answerlist">
-                        @for (answerControl of getAnswersArray(questionIndex).controls; track $index; let answerIndex = $index) {
+                        @for (answerControl of getAnswersArray(questionIndex).controls; track $index; let answerIndex =
+                        $index) {
                         <div class="surveyform__answerslist--answer">
-                            <label class="surveyform__answerslist--answer--text" [for]="'survey-answer-' + questionIndex + '-' + answerIndex">{{ getAnswerLabel(answerIndex) }}</label>
-                            <input class="input" type="text" [id]="'survey-answer-' + questionIndex + '-' + answerIndex" [formControl]="answerControl">
+                            <div class="label-wrapper">
+                                <label class="surveyform__answerslist--answer--text"
+                                    [for]="'survey-answer-' + questionIndex + '-' + answerIndex">{{
+                                    getAnswerLabel(answerIndex) }}
+                                </label>
+                                <svg class="input--delete-mobile" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                                    (click)="clearBaseField('name')" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M7.25 22.75C6.65417 22.75 6.1441 22.5378 5.71979 22.1135C5.29549 21.6892 5.08333 21.1792 5.08333 20.5833V6.5C4.77639 6.5 4.5191 6.39618 4.31146 6.18854C4.10382 5.9809 4 5.72361 4 5.41667C4 5.10972 4.10382 4.85243 4.31146 4.64479C4.5191 4.43715 4.77639 4.33333 5.08333 4.33333H9.41667C9.41667 4.02639 9.52049 3.7691 9.72813 3.56146C9.93576 3.35382 10.1931 3.25 10.5 3.25H14.8333C15.1403 3.25 15.3976 3.35382 15.6052 3.56146C15.8128 3.7691 15.9167 4.02639 15.9167 4.33333H20.25C20.5569 4.33333 20.8142 4.43715 21.0219 4.64479C21.2295 4.85243 21.3333 5.10972 21.3333 5.41667C21.3333 5.72361 21.2295 5.9809 21.0219 6.18854C20.8142 6.39618 20.5569 6.5 20.25 6.5V20.5833C20.25 21.1792 20.0378 21.6892 19.6135 22.1135C19.1892 22.5378 18.6792 22.75 18.0833 22.75H7.25ZM18.0833 6.5H7.25V20.5833H18.0833V6.5ZM10.5 18.4167C10.8069 18.4167 11.0642 18.3128 11.2719 18.1052C11.4795 17.8976 11.5833 17.6403 11.5833 17.3333V9.75C11.5833 9.44306 11.4795 9.18576 11.2719 8.97813C11.0642 8.77049 10.8069 8.66667 10.5 8.66667C10.1931 8.66667 9.93576 8.77049 9.72813 8.97813C9.52049 9.18576 9.41667 9.44306 9.41667 9.75V17.3333C9.41667 17.6403 9.52049 17.8976 9.72813 18.1052C9.93576 18.3128 10.1931 18.4167 10.5 18.4167ZM14.8333 18.4167C15.1403 18.4167 15.3976 18.3128 15.6052 18.1052C15.8128 17.8976 15.9167 17.6403 15.9167 17.3333V9.75C15.9167 9.44306 15.8128 9.18576 15.6052 8.97813C15.3976 8.77049 15.1403 8.66667 14.8333 8.66667C14.5264 8.66667 14.2691 8.77049 14.0615 8.97813C13.8538 9.18576 13.75 9.44306 13.75 9.75V17.3333C13.75 17.6403 13.8538 17.8976 14.0615 18.1052C14.2691 18.3128 14.5264 18.4167 14.8333 18.4167Z"
+                                        fill="#FEFDFF" />
+                                </svg>
+                            </div>
+                            <input class="input" type="text" [id]="'survey-answer-' + questionIndex + '-' + answerIndex"
+                                [formControl]="answerControl">
                             <svg class="input--delete" width="26" height="26" viewBox="0 0 26 26" fill="none"
                                 (click)="removeAnswer(questionIndex, answerIndex)"
                                 [attr.title]="getAnswerDeleteTooltip(questionIndex, answerIndex)"
@@ -124,16 +165,19 @@
                         }
                     </div>
                     @if (canAddAnswer(questionIndex)) {
-                    <button type="button" class="surveyform__addanswer button button--tertiary button__add-circle-s" (click)="addAnswer(questionIndex)">Add answer</button>
+                    <button type="button" class="surveyform__addanswer button button--tertiary button__add-circle-s"
+                        (click)="addAnswer(questionIndex)">Add answer</button>
                     }
                 </div>
             </div>
             }
             @if (canAddQuestion()) {
-            <button type="button" class="surveycreate--button button button--secondary button__add-circle" (click)="addQuestion()">Add next question</button>
+            <button type="button" class="surveycreate--button button button--secondary button__add-circle"
+                (click)="addQuestion()">Add next question</button>
             }
         </div>
-        <span class="input--error-message" [style.opacity]="isQuestionSectionInvalid() ? 1 : 0">Please answer at least the first question</span>
+        <span class="input--error-message" [style.opacity]="isQuestionSectionInvalid() ? 1 : 0">Please answer at least
+            the first question</span>
     </form>
     <button class="surveyform--button button button--primary" type="button" (click)="publish()">Publish</button>
 </section>

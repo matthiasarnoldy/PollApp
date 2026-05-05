@@ -40,6 +40,12 @@ body.home {
     background-color: v.$primaryPurple;
 }
 
+body.survey-create {
+    @include m.breakpoint(600px) {
+        padding: 0 0 110px;
+    }
+}
+
 app-root {
     width: 100%;
     flex: 1;

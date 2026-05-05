@@ -38,24 +38,39 @@ export class Surveys {
     });
   });
 
+  /**
+   * Sets the active category filter and closes the dropdown.
+   * @param category - The category to filter surveys by.
+   */
   selectCategory(category: SurveyCategory): void {
     this.selectedCategory.set(category);
     this.categoryDropdownOpen.set(false);
   }
 
+  /** Clears the active category filter and closes the dropdown. */
   clearCategoryFilter(): void {
     this.selectedCategory.set(null);
     this.categoryDropdownOpen.set(false);
   }
 
+  /** Toggles the category filter dropdown open/closed state. */
   toggleCategoryDropdown(): void {
     this.categoryDropdownOpen.update((isOpen) => !isOpen);
   }
 
+  /**
+   * Sets the active time filter (active or past surveys).
+   * @param filter - `'active'` to show ongoing surveys, `'past'` to show ended or answered ones.
+   */
   setTimeFilter(filter: 'active' | 'past'): void {
     this.timeFilter.set(filter);
   }
 
+  /**
+   * Returns a human-readable label describing when the survey ends or ended.
+   * Returns `'No end date'` if no end date is set.
+   * @param endDateValue - The end date string in `dd.mm.yyyy` format.
+   */
   getSurveyEndLabel(endDateValue: string): string {
     if (!endDateValue.trim()) return 'No end date';
     const now = new Date();
@@ -71,6 +86,11 @@ export class Surveys {
     return `Ended ${pastDays} days ago`;
   }
 
+  /**
+   * Checks whether the survey's end date is in the past.
+   * Returns `false` if no end date is set.
+   * @param endDateValue - The end date string in `dd.mm.yyyy` format.
+   */
   private isSurveyExpired(endDateValue: string): boolean {
     if (!endDateValue.trim()) return false;
     const now = new Date();
@@ -79,6 +99,12 @@ export class Surveys {
     return endDate < today;
   }
 
+  /**
+   * Determines whether a survey should be treated as past (expired or already answered).
+   * @param surveyId - The ID of the survey to check.
+   * @param endDateValue - The end date string in `dd.mm.yyyy` format.
+   * @returns `true` if the survey is expired or the current user has already answered it.
+   */
   isSurveyPast(surveyId: string, endDateValue: string): boolean {
     const isAnswered = this.surveyService.isSurveyAnswered(surveyId);
     const isExpired = this.isSurveyExpired(endDateValue);

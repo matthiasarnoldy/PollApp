@@ -33,6 +33,10 @@ export class SurveyResults {
     });
   });
 
+  /**
+   * Returns the letter label (A, B, C, …) for an answer at the given index.
+   * @param index - The zero-based index of the answer.
+   */
   getAnswerLetter(index: number): string {
     return String.fromCharCode(65 + index);
   }

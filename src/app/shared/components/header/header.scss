@@ -57,6 +57,10 @@
         }
     }
 
+    @include m.breakpoint(600px) {
+        padding: 40px 16px;
+    }
+
     .button {
         display: none;
     }

@@ -15,10 +15,20 @@ export class SurveyService {
   readonly surveys = this.surveysSignal.asReadonly();
   readonly answeredSurveyIds = this.answeredSurveyIdsSignal.asReadonly();
 
+  /**
+   * Returns a survey by its unique ID.
+   * @param surveyId - The ID of the survey to look up.
+   * @returns The matching {@link Survey}, or `null` if not found.
+   */
   getSurveyById(surveyId: string): Survey | null {
     return this.surveys().find((survey) => survey.id === surveyId) ?? null;
   }
-  
+
+  /**
+   * Creates a new survey from the given payload and appends it to the survey list.
+   * The survey is immediately set to `published` status.
+   * @param payload - The data required to create the survey.
+   */
   createSurvey(payload: NewSurveyPayload): void {
     const newSurvey: Survey = {
       id: `survey-${crypto.randomUUID()}`,
@@ -32,6 +42,12 @@ export class SurveyService {
     this.surveysSignal.update((surveys) => [...surveys, newSurvey]);
   }
 
+  /**
+   * Maps the questions from a {@link NewSurveyPayload} to fully typed {@link Survey} questions,
+   * generating unique IDs for each question and answer.
+   * @param payload - The survey creation payload containing raw question data.
+   * @returns An array of typed survey questions with generated IDs and zero initial votes.
+   */
   private buildQuestions(payload: NewSurveyPayload): Survey['questions'] {
     return payload.questions.map((q, qIndex) => ({
       id: `q-${crypto.randomUUID()}-${qIndex}`,
@@ -45,6 +61,12 @@ export class SurveyService {
     }));
   }
 
+  /**
+   * Applies the vote selections from a submission to all questions of a survey.
+   * @param survey - The survey to update.
+   * @param submission - The vote submission containing selected answer IDs per question.
+   * @returns A new {@link Survey} object with updated vote counts.
+   */
   private applyVotesToSurvey(survey: Survey, submission: SurveyVoteSubmission): Survey {
     return {
       ...survey,
@@ -60,6 +82,12 @@ export class SurveyService {
     };
   }
 
+  /**
+   * Increments the vote count for each answer whose ID is included in `selectedAnswerIds`.
+   * @param answers - The list of answers to update.
+   * @param selectedAnswerIds - The IDs of answers that received a vote.
+   * @returns A new array of answers with updated vote counts.
+   */
   private applyVotesToAnswers(answers: Survey['questions'][number]['answers'], selectedAnswerIds: string[]): Survey['questions'][number]['answers'] {
     return answers.map((answer) => {
       if (!selectedAnswerIds.includes(answer.id)) return answer;
@@ -67,10 +95,21 @@ export class SurveyService {
     });
   }
 
+  /**
+   * Checks whether the current user has already submitted a vote for the given survey.
+   * @param surveyId - The ID of the survey to check.
+   * @returns `true` if the survey has been answered, `false` otherwise.
+   */
   isSurveyAnswered(surveyId: string): boolean {
     return this.answeredSurveyIdsSignal().includes(surveyId);
   }
 
+  /**
+   * Submits a vote for a survey by applying the selected answers to the survey's vote counts
+   * and registering the survey as answered for the current user.
+   * For single-answer questions, only the first selected answer ID is applied.
+   * @param submission - The vote submission containing the survey ID and answer selections.
+   */
   async submitVote(submission: SurveyVoteSubmission): Promise<void> {
     this.surveysSignal.update((surveys) =>
       surveys.map((survey) => {

@@ -18,12 +18,18 @@ export class App {
     });
   }
 
+  /**
+   * Applies a route-specific CSS class to the document body.
+   * @param event - The completed navigation event.
+   */
   changeBodyClass(event: NavigationEnd) {
     document.body.className = '';
     if (event.urlAfterRedirects == '/home' || event.urlAfterRedirects == '/') {
       document.body.classList.add('home');
-    } else if (event.urlAfterRedirects == '/survey-view') {
+    } else if (event.urlAfterRedirects == '/survey/view') {
       document.body.classList.add('survey-view');
+    } else if (event.urlAfterRedirects == '/survey/create') {
+      document.body.classList.add('survey-create');
     }
   }
 }

@@ -7,16 +7,47 @@
     background-color: v.$primaryPurple;
     @include m.flexC($align: flex-start);
     border-radius: 5px 100px 5px 5px;
+
+    @include m.breakpoint(1170px) {
+        padding: 32px;
+    };
+
+    @include m.breakpoint(600px) {
+        padding: 32px 16px;
+        border-radius: 5px 80px 5px 5px;
+    };
+}
+
+.surveycreate__header--wrapper {
+    width: 100%;
+}
+
+.survey__status-wrapper {
+    width: 100%;
+    @include m.flexR($justify: space-between);
 }
 
 .surveycreate__header {
     width: 100%;
     padding-bottom: 32px;
-    @include m.flexR($justify: space-between, $align: flex-end);
+    @include m.flexR($justify: space-between, $align: flex-end, $gap: 16px);
 }
 
 .surveycreate--button {
     color: #FEFDFF;
+
+    @include m.breakpoint(868px) {
+        display: none;
+    }
+}
+
+.surveycreate--button-mobile {
+    display: none;
+
+    @include m.breakpoint(868px) {
+        display: block;
+        align-self: flex-start;
+    }
 }
 
 .surveycreate__form {
@@ -24,6 +55,10 @@
     padding: 40px 32px;
     background-color: #8E709929;
     border-radius: 5px 80px 5px 5px;
+
+    @include m.breakpoint(600px) {
+        padding: 24px;
+    };
 }
 
 .surveyform__inputarea {
@@ -31,6 +66,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 64px;
+
+    @include m.breakpoint(868px) {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    @include m.breakpoint(600px) {
+        padding-bottom: 48px;
+    }
 }
 
 .surveyform__inputarea--name-date {
@@ -40,6 +84,10 @@
 .surveyform__date-category {
     width: 100%;
     @include m.flexR($justify: space-between, $align: flex-start, $gap: 8px);
+
+    @include m.breakpoint(1170px) {
+        @include m.flexC($align: flex-start, $gap: 8px);
+    }
 }
 
 .surveys__dropdown {
@@ -160,6 +208,10 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 91px;
     row-gap: 64px;
+
+    @include m.breakpoint(868px) {
+        grid-template-columns: 1fr;
+    }
 }
 
 .surveycreate__question {
@@ -240,6 +292,10 @@
         font-weight: 700;
         color: #FEFDFF;
         min-width: 20px;
+    }
+
+    @include m.breakpoint(600px) {
+        @include m.flexC($gap: 8px);
     }
 }
 
