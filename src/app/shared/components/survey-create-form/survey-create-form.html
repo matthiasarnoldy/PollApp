@@ -133,6 +133,7 @@
             <button type="button" class="surveycreate--button button button--secondary button__add-circle" (click)="addQuestion()">Add next question</button>
             }
         </div>
+        <span class="input--error-message" [style.opacity]="isQuestionSectionInvalid() ? 1 : 0">Please answer at least the first question</span>
     </form>
-    <button class="surveyform--button button button--primary">Publish</button>
+    <button class="surveyform--button button button--primary" type="button" (click)="publish()">Publish</button>
 </section>

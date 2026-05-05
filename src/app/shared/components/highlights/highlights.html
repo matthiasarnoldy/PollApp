@@ -6,7 +6,7 @@
             @for (survey of highlightSurveys(); track survey.id) {
                 <div routerLink="/survey/view" [queryParams]="{ id: survey.id }" class="highlights__card">
                     <div class="highlights__card--header">
-                        <p class="highlights__card--category">{{ survey.category }}</p>
+                        <p class="highlights__card--category">{{ survey.category || 'No category choosen' }}</p>
                         <p class="highlights__card--headline">{{ survey.title }}</p>
                     </div>
                     <p class="highlights__card--end">{{ getSurveyEndLabel(survey.endDate) }}</p>

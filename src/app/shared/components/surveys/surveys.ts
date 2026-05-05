@@ -18,7 +18,12 @@ export class Surveys {
   private readonly timeFilter = signal<'active' | 'past'>('active');
 
   readonly surveys = this.surveyService.surveys;
-  readonly categories = computed(() => [...new Set(this.surveys().map((survey) => survey.category))]);
+  readonly categories = computed(() => {
+    const categories = this.surveys()
+      .map((survey) => survey.category)
+      .filter((category): category is SurveyCategory => category !== null);
+    return [...new Set(categories)];
+  });
   readonly selectedCategoryLabel = computed(() => this.selectedCategory());
   readonly isCategoryDropdownOpen = this.categoryDropdownOpen.asReadonly();
   readonly selectedTimeFilter = this.timeFilter.asReadonly();
@@ -52,6 +57,7 @@ export class Surveys {
   }
 
   getSurveyEndLabel(endDateValue: string): string {
+    if (!endDateValue.trim()) return 'No end date';
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const endDate = parseDdMmYyyy(endDateValue);
@@ -66,6 +72,7 @@ export class Surveys {
   }
 
   private isSurveyExpired(endDateValue: string): boolean {
+    if (!endDateValue.trim()) return false;
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const endDate = parseDdMmYyyy(endDateValue);

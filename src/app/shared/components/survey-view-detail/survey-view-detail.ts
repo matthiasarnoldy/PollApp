@@ -20,6 +20,7 @@ export class SurveyViewDetail {
   readonly survey = input<Survey | null>(null);
 
   getEndDateLabel(endDateValue: string): string {
+    if (!endDateValue.trim()) return 'No end date';
     const formattedDate = new Intl.DateTimeFormat('de-DE').format(parseDdMmYyyy(endDateValue));
     return `Ends on ${formattedDate}`;
   }

@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 import { TEST_SURVEYS } from '../data/test-surveys';
+import type { NewSurveyPayload } from '../interfaces/new-survey-payload.interface';
 import type { Survey } from '../interfaces/survey.interface';
 import type { SurveyVoteSubmission } from '../interfaces/survey-vote-submission.interface';
 
@@ -16,6 +17,32 @@ export class SurveyService {
 
   getSurveyById(surveyId: string): Survey | null {
     return this.surveys().find((survey) => survey.id === surveyId) ?? null;
+  }
+  
+  createSurvey(payload: NewSurveyPayload): void {
+    const newSurvey: Survey = {
+      id: `survey-${crypto.randomUUID()}`,
+      title: payload.title,
+      description: payload.description,
+      category: payload.category,
+      status: 'published',
+      endDate: payload.endDate,
+      questions: this.buildQuestions(payload),
+    };
+    this.surveysSignal.update((surveys) => [...surveys, newSurvey]);
+  }
+
+  private buildQuestions(payload: NewSurveyPayload): Survey['questions'] {
+    return payload.questions.map((q, qIndex) => ({
+      id: `q-${crypto.randomUUID()}-${qIndex}`,
+      text: q.text,
+      multiple: q.multiple,
+      answers: q.answers.map((answerText, aIndex) => ({
+        id: `a-${crypto.randomUUID()}-${aIndex}`,
+        text: answerText,
+        votes: 0,
+      })),
+    }));
   }
 
   isSurveyAnswered(surveyId: string): boolean {

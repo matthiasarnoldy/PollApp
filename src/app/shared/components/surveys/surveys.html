@@ -38,7 +38,7 @@
                 class="surveylist__card"
                 [class.surveylist__card--disabled]="isSurveyPast(survey.id, survey.endDate)">
                 <div class="surveylist__card--header">
-                    <p class="surveylist__card--text">{{survey.category}}</p>
+                    <p class="surveylist__card--text">{{ survey.category || 'No category choosen' }}</p>
                     <p class="surveylist__card--headline">{{survey.title}}</p>
                 </div>
                 <p class="surveylist__card--end">{{ getSurveyEndLabel(survey.endDate) }}</p>

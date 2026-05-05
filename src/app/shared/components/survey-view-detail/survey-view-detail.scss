@@ -2,7 +2,7 @@
 @use "../../../styles/abstract/variables" as v;
 
 .survey__view--detail {
-    max-width: 702px;
+    width: 702px;
     padding: 40px;
     background-color: #8E70991A;
     @include m.flexC($align: flex-start, $gap: 8px);
@@ -10,11 +10,13 @@
 }
 
 .survey__detail {
+    width: 100%;
     padding-bottom: 24px;
     @include m.flexC($align: flex-start, $gap: 40px);
 }
 
 .detail__headline {
+    width: 100%;
     @include m.flexC($align: flex-start, $gap: 8px);
 }
 

@@ -5,7 +5,7 @@
         <div class="detail__headline">
             <div class="headline__info">
                 <p class="headline__info--text">{{ getEndDateLabel(selectedSurvey.endDate) }}</p>
-                <p class="headline__info--category">Category: {{ selectedSurvey.category }}</p>
+                <p class="headline__info--category">Category: {{ selectedSurvey.category || 'No category choosen' }}</p>
             </div>
             <h4 class="detail__header">{{ selectedSurvey.title }}</h4>
             <p class="headline__info--text">{{ selectedSurvey.description }}</p>

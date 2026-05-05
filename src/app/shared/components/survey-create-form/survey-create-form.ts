@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { SurveyService } from '../../services/survey.service';
+import type { NewSurveyPayload } from '../../interfaces/new-survey-payload.interface';
 import type { SurveyCategory } from '../../types/survey-category.type';
 import { parseDdMmYyyy } from '../../utils/date.utils';
 
@@ -14,8 +15,10 @@ import { parseDdMmYyyy } from '../../utils/date.utils';
 })
 export class SurveyCreateForm {
   private readonly surveyService = inject(SurveyService);
+  private readonly router = inject(Router);
   private readonly maxAnswersPerQuestion = 6;
   private readonly maxQuestions = 6;
+  private readonly publishAttempted = signal(false);
   readonly categories: SurveyCategory[] = [
     'Team activities',
     'Health & Wellness',
@@ -152,6 +155,44 @@ export class SurveyCreateForm {
 
   clearCategory(): void {
     this.categoryControl.setValue(null);
+  }
+
+  isQuestionSectionInvalid(): boolean {
+    return this.publishAttempted() && !this.hasAtLeastOneCompleteQuestion();
+  }
+
+  async publish(): Promise<void> {
+    this.publishAttempted.set(true);
+    this.form.markAllAsTouched();
+    if (this.nameControl.invalid || this.endDateControl.invalid) return;
+    if (!this.hasAtLeastOneCompleteQuestion()) return;
+    this.surveyService.createSurvey(this.buildPayload());
+    await this.router.navigateByUrl('/');
+  }
+
+  private buildPayload(): NewSurveyPayload {
+    const raw = this.form.getRawValue();
+    return {
+      title: raw.name,
+      description: raw.description,
+      category: raw.category,
+      endDate: raw.setEndDate,
+      questions: raw.questions
+        .map((q) => ({
+          text: q.question,
+          multiple: q.allowMultipleAnswers,
+          answers: q.answers.filter((a) => a.trim().length > 0),
+        }))
+        .filter((q) => q.text.trim().length > 0),
+    };
+  }
+
+  private hasAtLeastOneCompleteQuestion(): boolean {
+    const firstQuestionGroup = this.questionsArray.at(0);
+    if (!firstQuestionGroup) return false;
+    return firstQuestionGroup.controls.question.value.trim().length > 0 &&
+      firstQuestionGroup.controls.answers.controls.length > 0 &&
+      firstQuestionGroup.controls.answers.controls.every((answerControl) => answerControl.value.trim().length > 0);
   }
 
   clearBaseField(fieldName: 'name' | 'setEndDate' | 'description'): void {

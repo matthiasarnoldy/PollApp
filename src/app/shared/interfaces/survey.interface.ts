@@ -4,11 +4,10 @@ import type { SurveyQuestion } from './survey-question.interface';
 
 export interface Survey {
   id: string;
-  category: SurveyCategory;
+  category: SurveyCategory | null;
   title: string;
   description: string;
   status: SurveyStatus;
-  createdAt: string;
   endDate: string;
   questions: SurveyQuestion[];
 }

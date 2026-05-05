@@ -18,16 +18,17 @@ export class Highlights {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     return this.surveyService
       .surveys()
-      .filter((survey) => survey.status === 'published' && parseDdMmYyyy(survey.endDate) >= today)
-        .sort((firstSurvey, secondSurvey) => {
-        const firstEndDate = parseDdMmYyyy(firstSurvey.endDate).getTime();
-        const secondEndDate = parseDdMmYyyy(secondSurvey.endDate).getTime();
+      .filter((survey) => survey.status === 'published' && (!survey.endDate.trim() || parseDdMmYyyy(survey.endDate) >= today))
+      .sort((firstSurvey, secondSurvey) => {
+        const firstEndDate = firstSurvey.endDate.trim() ? parseDdMmYyyy(firstSurvey.endDate).getTime() : Number.POSITIVE_INFINITY;
+        const secondEndDate = secondSurvey.endDate.trim() ? parseDdMmYyyy(secondSurvey.endDate).getTime() : Number.POSITIVE_INFINITY;
         return firstEndDate - secondEndDate;
       })
       .slice(0, 3);
   });
 
   getSurveyEndLabel(endDateValue: string): string {
+    if (!endDateValue.trim()) return 'No end date';
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const endDate = parseDdMmYyyy(endDateValue);
