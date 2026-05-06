@@ -100,8 +100,6 @@ export class SurveyService implements OnDestroy {
       .from('surveys')
       .insert([this.mapSurveyToRow(survey)])
       .select();
-
-    if (error) console.error('Failed to insert survey in Supabase:', error.message);
   }
 
   /**
@@ -115,7 +113,6 @@ export class SurveyService implements OnDestroy {
       .update(this.mapSurveyToRow(survey))
       .eq('id', survey.id)
       .select();
-    if (error) console.error('Failed to persist survey in Supabase:', error.message);
   }
 
   /**
@@ -288,6 +285,5 @@ export class SurveyService implements OnDestroy {
       .from('surveys')
       .delete()
       .eq('id', surveyId);
-    if (error) console.error('Failed to delete survey in Supabase:', error.message);
   }
 }
