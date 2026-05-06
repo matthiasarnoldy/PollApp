@@ -1,0 +1,114 @@
+@use "../abstract/mixins" as m;
+@use "../abstract/variables" as v;
+@use "../abstract/icon" as i;
+
+.surveys__dropdown {
+    position: relative;
+    width: 200px;
+    flex-shrink: 0;
+    @include m.flexC($align: flex-start, $gap: 4px);
+}
+
+.category__dropdown {
+    position: absolute;
+    top: 34px;
+    height: 0;
+    padding: 0 4px;
+    background-color: #ffffff;
+    @include m.flexC($align: flex-start, $gap: 4px);
+    opacity: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+    transition: all 300ms;
+
+    .surveys__dropdown.open & {
+        height: fit-content;
+        padding: 8px 4px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    &--text {
+        font-family: "Mulish";
+        font-size: 16px;
+        font-weight: 400;
+        color: v.$primaryPurple;
+        padding: 4px;
+        border-radius: 6px;
+        transition: all 100ms ease-out;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #F4E9FB;
+        }
+    }
+}
+
+.surveys__filters--sort {
+    font-family: "Mulish";
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    width: 100%;
+    padding: 4px 6px;
+    background-color: transparent;
+    @include m.flexR($justify: space-between);
+    border-radius: 6px;
+    transition: all 100ms ease-out;
+
+    &::after {
+        content: '';
+        display: block;
+        background-image: url('#{i.icon("arrow--dropdown", "%23ffffff")}');
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        transition: transform 300ms ease-out;
+    }
+
+    &:hover {
+        background-color: #D9D9D91F;
+
+        &::after {
+            background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
+        }
+    }
+
+    &:active {
+        background-color: #D9D9D91F;
+    }
+
+    .surveys__dropdown.open & {
+        &::after {
+            background-image: url('#{i.icon("arrow--dropdown", "%23FF9900")}');
+            transform: rotate(180deg) translateX(-4px);
+        }
+    }
+}
+
+.surveys__dropdown--chosen {
+    position: absolute;
+    display: inline-block;
+    padding: 4px 6px;
+    margin-top: 50px;
+    opacity: 0;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:not(:empty) {
+        opacity: 1;
+    }
+
+    &:not(:empty):hover::after {
+        content: '×';
+        position: absolute;
+        top: 50%;
+        right: -8px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        font-weight: 700;
+        color: v.$primaryOrange;
+    }
+}

@@ -1,6 +1,7 @@
 @use "../abstract/mixins" as m;
 @use "../abstract/variables" as v;
 @use "../abstract/icon" as i;
+@use 'sass:map';
 
 
 $btn-icons: (
@@ -90,8 +91,8 @@ $btn-icons: (
             background-image: url('#{i.icon($key, "%23FEFDFF")}');
             background-repeat: no-repeat;
             vertical-align: middle;
-            width: map-get($data, 'w');
-            height: map-get($data, 'h');
+            width: map.get($data, 'w');
+            height: map.get($data, 'h');
         }
     }
 }
@@ -104,8 +105,8 @@ $btn-icons: (
             background-image: url('#{i.icon($key, "%23221227")}');
             background-repeat: no-repeat;
             vertical-align: middle;
-            width: map-get($data, 'w');
-            height: map-get($data, 'h');
+            width: map.get($data, 'w');
+            height: map.get($data, 'h');
         }
 
         &:hover::after {
