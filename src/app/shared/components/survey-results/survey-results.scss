@@ -43,6 +43,7 @@
 }
 
 .surveyresults__answer {
+    width: 100%;
     @include m.flexC($align: flex-start, $gap: 16px);
 
     @include m.breakpoint(1170px) {
@@ -102,7 +103,7 @@
         font-size: 16px;
         font-weight: 800;
         color: #D79451;
-        min-width: 36px;
+        min-width: 44px;
         text-align: right;
     }
 }

@@ -1,39 +1,51 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, OnDestroy, signal } from '@angular/core';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 
 import type { NewSurveyPayload } from '../interfaces/new-survey-payload.interface';
 import type { Survey } from '../interfaces/survey.interface';
 import type { SurveyVoteSubmission } from '../interfaces/survey-vote-submission.interface';
+import type { SurveyRow } from '../types/survey-row.type';
 import { isSupabaseConfigured, supabase } from './supabase.client';
-
-type SurveyRow = {
-  id: string;
-  title: string;
-  description: string;
-  category: string | null;
-  status: Survey['status'];
-  end_date: string;
-  questions: Survey['questions'];
-};
 
 @Injectable({
   providedIn: 'root',
 })
-export class SurveyService {
+export class SurveyService implements OnDestroy {
   private readonly surveysSignal = signal<Survey[]>([]);
   private readonly answeredSurveyIdsSignal = signal<string[]>([]);
+  private surveyInsertChannel: RealtimeChannel | null = null;
+  private surveyDeleteChannel: RealtimeChannel | null = null;
+  private surveyUpdateChannel: RealtimeChannel | null = null;
 
   readonly surveys = this.surveysSignal.asReadonly();
   readonly answeredSurveyIds = this.answeredSurveyIdsSignal.asReadonly();
 
   constructor() {
-    void this.loadSurveys();
+    void this.getSurveys();
+    this.addSurveyChannel();
+    this.deleteSurveyChannel();
+    this.updateSurveyChannel();
+  }
+
+  ngOnDestroy(): void {
+    if (this.surveyInsertChannel) {
+      void supabase.removeChannel(this.surveyInsertChannel);
+      this.surveyInsertChannel = null;
+    }
+    if (this.surveyDeleteChannel) {
+      void supabase.removeChannel(this.surveyDeleteChannel);
+      this.surveyDeleteChannel = null;
+    }
+    if (this.surveyUpdateChannel) {
+      void supabase.removeChannel(this.surveyUpdateChannel);
+      this.surveyUpdateChannel = null;
+    }
   }
 
   /**
-   * Loads surveys from Supabase when configured.
-   * Returns an empty list if Supabase is not configured.
+   * Loads all surveys from Supabase into local signal state.
    */
-  private async loadSurveys(): Promise<void> {
+  async getSurveys(): Promise<void> {
     if (!isSupabaseConfigured) {
       this.surveysSignal.set([]);
       return;
@@ -63,11 +75,100 @@ export class SurveyService {
   }
 
   /**
-   * Persists a survey via upsert when Supabase is configured.
-   * @param survey - The survey to persist.
+   * Converts an internal Survey to the Supabase row shape.
+   * @param survey - The survey model used in the app.
    */
-  private async persistSurvey(survey: Survey): Promise<void> {
+  private mapSurveyToRow(survey: Survey): SurveyRow {
+    return {
+      id: survey.id,
+      title: survey.title,
+      description: survey.description,
+      category: survey.category,
+      status: survey.status,
+      end_date: survey.endDate,
+      questions: survey.questions,
+    };
+  }
+
+  /**
+   * Inserts a survey row in Supabase.
+   * @param survey - The survey to insert.
+   */
+  private async addSurvey(survey: Survey): Promise<void> {
     if (!isSupabaseConfigured) return;
+    const { error } = await supabase
+      .from('surveys')
+      .insert([this.mapSurveyToRow(survey)])
+      .select();
+
+    if (error) console.error('Failed to insert survey in Supabase:', error.message);
+  }
+
+  /**
+   * Updates an existing survey row in Supabase.
+   * @param survey - The survey to update.
+   */
+  private async updateSurvey(survey: Survey): Promise<void> {
+    if (!isSupabaseConfigured) return;
+    const { error } = await supabase
+      .from('surveys')
+      .update(this.mapSurveyToRow(survey))
+      .eq('id', survey.id)
+      .select();
+    if (error) console.error('Failed to persist survey in Supabase:', error.message);
+  }
+
+  /**
+   * Subscribes to INSERT changes on the surveys table.
+   */
+  private addSurveyChannel(): void {
+    this.surveyInsertChannel = supabase.channel('custom-insert-channel')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'surveys' },
+        (payload) => {
+          const insertedSurvey = this.mapRowToSurvey(payload.new as SurveyRow);
+          this.surveysSignal.update((surveys) =>
+            surveys.some((survey) => survey.id === insertedSurvey.id) ? surveys : [...surveys, insertedSurvey],
+          );
+        },
+      )
+      .subscribe();
+  }
+
+  /** Subscribes to DELETE changes on the surveys table. */
+  private deleteSurveyChannel(): void {
+    this.surveyDeleteChannel = supabase.channel('custom-delete-channel')
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'surveys' },
+        (payload) => {
+          const deletedSurveyId = payload.old['id'] as string | undefined;
+          if (!deletedSurveyId) return;
+          this.surveysSignal.update((surveys) =>
+            surveys.filter((survey) => survey.id !== deletedSurveyId),
+          );
+        },
+      )
+      .subscribe();
+  }
+
+  /** Subscribes to UPDATE changes on the surveys table. */
+  private updateSurveyChannel(): void {
+    this.surveyUpdateChannel = supabase.channel('custom-update-channel')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'surveys' },
+        (payload) => {
+          const updatedSurvey = this.mapRowToSurvey(payload.new as SurveyRow);
+          this.surveysSignal.update((surveys) =>
+            surveys.map((survey) =>
+              survey.id === updatedSurvey.id ? updatedSurvey : survey,
+            ),
+          );
+        },
+      )
+      .subscribe();
   }
 
   /**
@@ -94,8 +195,7 @@ export class SurveyService {
       endDate: payload.endDate,
       questions: this.buildQuestions(payload),
     };
-    this.surveysSignal.update((surveys) => [...surveys, newSurvey]);
-    await this.persistSurvey(newSurvey);
+    await this.addSurvey(newSurvey);
   }
 
   /**
@@ -167,18 +267,27 @@ export class SurveyService {
    * @param submission - The vote submission containing the survey ID and answer selections.
    */
   async submitVote(submission: SurveyVoteSubmission): Promise<void> {
-    this.surveysSignal.update((surveys) =>
-      surveys.map((survey) => {
-        if (survey.id !== submission.surveyId) return survey;
-        return this.applyVotesToSurvey(survey, submission);
-      }),
-    );
-    const updatedSurvey = this.surveysSignal().find((survey) => survey.id === submission.surveyId);
-    if (updatedSurvey) await this.persistSurvey(updatedSurvey);
+    const selectedSurvey = this.surveys().find((survey) => survey.id === submission.surveyId);
+    if (!selectedSurvey) return;
+    const updatedSurvey = this.applyVotesToSurvey(selectedSurvey, submission);
+    if (updatedSurvey) await this.updateSurvey(updatedSurvey);
     if (submission.selections.length > 0) {
       this.answeredSurveyIdsSignal.update((answeredSurveyIds) =>
         answeredSurveyIds.includes(submission.surveyId) ? answeredSurveyIds : [...answeredSurveyIds, submission.surveyId],
       );
     }
+  }
+
+  /**
+   * Deletes a survey by ID in Supabase and updates local state.
+   * @param surveyId - The ID of the survey to delete.
+   */
+  async deleteSurvey(surveyId: string): Promise<void> {
+    if (!isSupabaseConfigured) return;
+    const { error } = await supabase
+      .from('surveys')
+      .delete()
+      .eq('id', surveyId);
+    if (error) console.error('Failed to delete survey in Supabase:', error.message);
   }
 }
