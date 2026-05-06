@@ -1,12 +1,12 @@
 <section class="hero">
     <div class="hero__header">
         <h1 class="hero__headline">Collect Feedback, Unlock Ideas</h1>
-        <img class="surveyIcon--mobile" src="/icons/surveyIcon--mobile.svg" alt="">
+        <img class="surveyIcon--mobile" src="icons/surveyIcon--mobile.svg" alt="">
         <p class="hero__description">Create and share surveys in minutes – from team events to workplace culture.
             Collect
             opinions, engage your audience, and turn feedback into action.</p>
         <button routerLink="survey/create" class="hero__button button button--primary button--add-circle">New survey</button>
     </div>
-    <img class="surveyIcon" [src]="isHovered ? '/icons/surveyIcon--animate.svg' : '/icons/surveyIcon.svg'" alt=""
+    <img class="surveyIcon" [src]="isHovered ? 'icons/surveyIcon--animate.svg' : 'icons/surveyIcon.svg'" alt=""
         (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" />
 </section>
