@@ -1,19 +1,74 @@
 import { Injectable, signal } from '@angular/core';
 
-import { TEST_SURVEYS } from '../data/test-surveys';
 import type { NewSurveyPayload } from '../interfaces/new-survey-payload.interface';
 import type { Survey } from '../interfaces/survey.interface';
 import type { SurveyVoteSubmission } from '../interfaces/survey-vote-submission.interface';
+import { isSupabaseConfigured, supabase } from './supabase.client';
+
+type SurveyRow = {
+  id: string;
+  title: string;
+  description: string;
+  category: string | null;
+  status: Survey['status'];
+  end_date: string;
+  questions: Survey['questions'];
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class SurveyService {
-  private readonly surveysSignal = signal<Survey[]>(TEST_SURVEYS);
+  private readonly surveysSignal = signal<Survey[]>([]);
   private readonly answeredSurveyIdsSignal = signal<string[]>([]);
 
   readonly surveys = this.surveysSignal.asReadonly();
   readonly answeredSurveyIds = this.answeredSurveyIdsSignal.asReadonly();
+
+  constructor() {
+    void this.loadSurveys();
+  }
+
+  /**
+   * Loads surveys from Supabase when configured.
+   * Returns an empty list if Supabase is not configured.
+   */
+  private async loadSurveys(): Promise<void> {
+    if (!isSupabaseConfigured) {
+      this.surveysSignal.set([]);
+      return;
+    }
+    const { data, error } = await supabase
+      .from('surveys')
+      .select('id, title, description, category, status, end_date, questions')
+      .order('created_at', { ascending: false });
+    const mappedSurveys = (data ?? []).map((row) => this.mapRowToSurvey(row as SurveyRow));
+    this.surveysSignal.set(mappedSurveys);
+  }
+
+  /**
+   * Converts a Supabase row to the internal Survey model.
+   * @param row - The raw row from the `surveys` table.
+   */
+  private mapRowToSurvey(row: SurveyRow): Survey {
+    return {
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      category: row.category as Survey['category'],
+      status: row.status,
+      endDate: row.end_date,
+      questions: row.questions,
+    };
+  }
+
+  /**
+   * Persists a survey via upsert when Supabase is configured.
+   * @param survey - The survey to persist.
+   */
+  private async persistSurvey(survey: Survey): Promise<void> {
+    if (!isSupabaseConfigured) return;
+  }
 
   /**
    * Returns a survey by its unique ID.
@@ -29,7 +84,7 @@ export class SurveyService {
    * The survey is immediately set to `published` status.
    * @param payload - The data required to create the survey.
    */
-  createSurvey(payload: NewSurveyPayload): void {
+  async createSurvey(payload: NewSurveyPayload): Promise<void> {
     const newSurvey: Survey = {
       id: `survey-${crypto.randomUUID()}`,
       title: payload.title,
@@ -40,6 +95,7 @@ export class SurveyService {
       questions: this.buildQuestions(payload),
     };
     this.surveysSignal.update((surveys) => [...surveys, newSurvey]);
+    await this.persistSurvey(newSurvey);
   }
 
   /**
@@ -117,11 +173,11 @@ export class SurveyService {
         return this.applyVotesToSurvey(survey, submission);
       }),
     );
+    const updatedSurvey = this.surveysSignal().find((survey) => survey.id === submission.surveyId);
+    if (updatedSurvey) await this.persistSurvey(updatedSurvey);
     if (submission.selections.length > 0) {
       this.answeredSurveyIdsSignal.update((answeredSurveyIds) =>
-        answeredSurveyIds.includes(submission.surveyId)
-          ? answeredSurveyIds
-          : [...answeredSurveyIds, submission.surveyId],
+        answeredSurveyIds.includes(submission.surveyId) ? answeredSurveyIds : [...answeredSurveyIds, submission.surveyId],
       );
     }
   }

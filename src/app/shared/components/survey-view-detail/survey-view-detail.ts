@@ -44,7 +44,7 @@ export class SurveyViewDetail {
    * @returns A hint string for multi-choice questions, or an empty string for single-choice.
    */
   getQuestionInfoLabel(multiple: boolean): string {
-    return multiple ? 'More than one answers are possible' : '';
+    return multiple ? 'More than one answers is possible' : '';
   }
 
   /**

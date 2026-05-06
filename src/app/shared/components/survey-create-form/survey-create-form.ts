@@ -221,7 +221,7 @@ export class SurveyCreateForm {
     this.form.markAllAsTouched();
     if (this.nameControl.invalid || this.endDateControl.invalid) return;
     if (!this.hasAtLeastOneCompleteQuestion()) return;
-    this.surveyService.createSurvey(this.buildPayload());
+    await this.surveyService.createSurvey(this.buildPayload());
     await this.router.navigateByUrl('/?published=true');
   }
 
