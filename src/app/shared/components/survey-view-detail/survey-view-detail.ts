@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import type { Survey } from '../../interfaces/survey.interface';
@@ -18,6 +18,18 @@ export class SurveyViewDetail {
   private readonly selectedAnswers = signal<Record<string, string[]>>({});
 
   readonly survey = input<Survey | null>(null);
+  readonly selectionsChange = output<Record<string, string[]>>();
+
+  /**
+   * Returns `true` when every question in the survey has at least one answer selected.
+   */
+  readonly allQuestionsAnswered = computed(() => {
+    const selectedSurvey = this.survey();
+    if (!selectedSurvey) return false;
+    return selectedSurvey.questions.every(
+      (question) => (this.selectedAnswers()[question.id] ?? []).length > 0
+    );
+  });
 
   /**
    * Returns a formatted label for the survey's end date.
@@ -76,6 +88,7 @@ export class SurveyViewDetail {
       }
       return nextSelections;
     });
+    this.selectionsChange.emit(this.selectedAnswers());
   }
 
   /**
@@ -105,6 +118,7 @@ export class SurveyViewDetail {
       selections,
     });
     this.selectedAnswers.set({});
+    this.selectionsChange.emit({});
     await this.router.navigate(['/'], { queryParams: { voted: 'true' } });
   }
 

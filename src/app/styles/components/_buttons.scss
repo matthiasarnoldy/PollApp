@@ -18,6 +18,11 @@ $btn-icons: (
     border: none;
     outline: none;
     cursor: pointer;
+
+    &:disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
 }
 
 .button--primary {

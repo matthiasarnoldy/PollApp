@@ -53,6 +53,7 @@
             }
         </div>
         <button type="button" class="survey__detail--button button button--secondary"
+            [disabled]="!allQuestionsAnswered()"
             (click)="completeSurvey()">Complete survey</button>
     </div>
     }

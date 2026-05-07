@@ -18,7 +18,7 @@ export class Highlights {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     return this.surveyService
       .surveys()
-      .filter((survey) => survey.status === 'published' && (!survey.endDate.trim() || parseDdMmYyyy(survey.endDate) >= today))
+      .filter((survey) => survey.status === 'published' && (!survey.endDate.trim() || parseDdMmYyyy(survey.endDate) >= today) && !this.surveyService.isSurveyAnswered(survey.id))
       .sort((firstSurvey, secondSurvey) => {
         const firstEndDate = firstSurvey.endDate.trim() ? parseDdMmYyyy(firstSurvey.endDate).getTime() : Number.POSITIVE_INFINITY;
         const secondEndDate = secondSurvey.endDate.trim() ? parseDdMmYyyy(secondSurvey.endDate).getTime() : Number.POSITIVE_INFINITY;

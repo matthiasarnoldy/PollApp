@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { Header } from "../header/header";
@@ -21,6 +21,7 @@ export class SurveyView {
   });
 
   readonly surveys = this.surveyService.surveys;
+  readonly previewSelections = signal<Record<string, string[]>>({});
   readonly selectedSurvey = computed(() => {
     const surveyId = this.queryParamMap().get('id');
     if (!surveyId) return this.surveys()[0] ?? null;
