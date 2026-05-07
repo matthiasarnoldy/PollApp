@@ -42,7 +42,7 @@ body.home {
 
 body.survey-create {
     @include m.breakpoint(600px) {
-        padding: 0 0 110px;
+        padding: 0 0 0;
     }
 }
 

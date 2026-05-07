@@ -2,5 +2,8 @@
 @if (showPublishedMessage()) {
 <div class="overlay__message">Your survey is now published</div>
 }
+@if (showVotedMessage()) {
+<div class="overlay__message">Your vote has been submitted!</div>
+}
 <app-overview></app-overview>
 <app-surveys></app-surveys>

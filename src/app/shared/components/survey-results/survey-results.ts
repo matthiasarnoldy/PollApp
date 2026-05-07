@@ -9,9 +9,8 @@ import type { Survey } from '../../interfaces/survey.interface';
   styleUrl: './survey-results.scss',
 })
 export class SurveyResults {
-  readonly isMobileResultsOpen = signal(false);
+  readonly isMobileResultsOpen = signal(true);
   readonly survey = input<Survey | null>(null);
-  /** Toggles the mobile visibility state of the results block. */
   toggleMobileResults(): void {
     this.isMobileResultsOpen.update((open) => !open);
   }

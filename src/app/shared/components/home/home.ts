@@ -19,8 +19,15 @@ export class Home {
   });
 
   readonly showPublishedMessage = signal(false);
+  readonly showVotedMessage = signal(false);
 
   constructor() {
+    this.initPublishedMessageEffect();
+    this.initVotedMessageEffect();
+  }
+
+  /** Registers the effect that shows the published overlay based on the `published` query param. */
+  private initPublishedMessageEffect(): void {
     effect((onCleanup) => {
       const shouldShowMessage = this.queryParamMap().get('published') === 'true';
       if (!shouldShowMessage) {
@@ -29,6 +36,20 @@ export class Home {
       }
       this.showPublishedMessage.set(true);
       const timeoutId = this.scheduleHidePublishedMessage();
+      onCleanup(() => window.clearTimeout(timeoutId));
+    });
+  }
+
+  /** Registers the effect that shows the voted overlay based on the `voted` query param. */
+  private initVotedMessageEffect(): void {
+    effect((onCleanup) => {
+      const shouldShowVotedMessage = this.queryParamMap().get('voted') === 'true';
+      if (!shouldShowVotedMessage) {
+        this.showVotedMessage.set(false);
+        return;
+      }
+      this.showVotedMessage.set(true);
+      const timeoutId = this.scheduleHideVotedMessage();
       onCleanup(() => window.clearTimeout(timeoutId));
     });
   }
@@ -43,6 +64,22 @@ export class Home {
       void this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { published: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }, 3000);
+  }
+
+  /**
+   * Schedules hiding the voted overlay message and removes the `voted` query param from the URL.
+   * @returns The timeout ID used for cleanup.
+   */
+  private scheduleHideVotedMessage(): number {
+    return window.setTimeout(() => {
+      this.showVotedMessage.set(false);
+      void this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { voted: null },
         queryParamsHandling: 'merge',
         replaceUrl: true,
       });

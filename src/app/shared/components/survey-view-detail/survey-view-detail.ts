@@ -105,7 +105,7 @@ export class SurveyViewDetail {
       selections,
     });
     this.selectedAnswers.set({});
-    await this.router.navigateByUrl('/');
+    await this.router.navigate(['/'], { queryParams: { voted: 'true' } });
   }
 
   /**
